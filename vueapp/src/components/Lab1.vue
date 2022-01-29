@@ -7,32 +7,32 @@
 
   <div class="step">
     <p>Step1: Create test database</p>
-    <input v-model="createDbSql" />
-    <button @click="executeCreateDbSql">Run</button>
+    <el-input v-model="createDbSql" />
+    <el-button type="primary" @click="executeCreateDbSql">Run</el-button>
     <p v-if="createDbSqlSuccess!=null">Success: {{ createDbSqlSuccess }}</p>
     <p v-if="createDbSqlSuccess==false">Error: {{ createDbSqlError }}</p>
   </div>
   
   <div class="step">
     <p>Step2: Create test table</p>
-    <input v-model="createTableSql" />
-    <button @click="executeCreateTableSql">Run</button>
+    <el-input v-model="createTableSql" />
+    <el-button type="primary" @click="executeCreateTableSql">Run</el-button>
     <p v-if="createTableSqlSuccess!=null">Success: {{ createTableSqlSuccess }}</p>
     <p v-if="createTableSqlSuccess==false">Error: {{ createTableSqlError }}</p>
   </div>
 
   <div class="step">
     <p>Step3: Insert data into table</p>
-    <input v-model="insertSql" />
-    <button @click="executeInsertSql">Run</button>
+    <el-input v-model="insertSql" />
+    <el-button type="primary" @click="executeInsertSql">Run</el-button>
     <p v-if="insertSqlSuccess!=null">Success: {{ insertSqlSuccess }}</p>
     <p v-if="insertSqlSuccess==false">Error: {{ insertSqlError }}</p>
   </div>
   
   <div class="step">
     <p>Step4: Select data from table</p>
-    <input v-model="selectSql" />
-    <button @click="executeSelectSql">Run</button>
+    <el-input v-model="selectSql" />
+    <el-button type="primary" @click="executeSelectSql">Run</el-button>
     <p v-if="selectSqlSuccess!=null">Success: {{ selectSqlSuccess }}</p>
     <p v-if="selectSqlSuccess==false">Error: {{ selectSqlError }}</p>
     <p>Result of {{ selectSql }}: </p>
@@ -45,16 +45,16 @@
   
   <div class="step">
     <p>Step5: Drop test table</p>
-    <input v-model="dropTableSql" />
-    <button @click="executeDropTableSql">Run</button>
+    <el-input v-model="dropTableSql" />
+    <el-button type="primary" @click="executeDropTableSql">Run</el-button>
     <p v-if="dropTableSqlSuccess!=null">Success: {{ dropTableSqlSuccess }}</p>
     <p v-if="dropTableSqlSuccess==false">Error: {{ dropTableSqlError }}</p>
   </div>
   
   <div class="step">
     <p>Step6: Drop test database</p>
-    <input v-model="dropDbSql" />
-    <button @click="executeDropTableSql">Run</button>
+    <el-input v-model="dropDbSql" />
+    <el-button type="primary" @click="executeDropTableSql">Run</el-button>
     <p v-if="dropDbSqlSuccess!=null">Success: {{ dropDbSqlSuccess }}</p>
     <p v-if="dropDbSqlSuccess==false">Error: {{ dropDbSqlError }}</p>
   </div>

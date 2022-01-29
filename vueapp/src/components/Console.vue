@@ -22,10 +22,10 @@
   <div class="sql_playground">
     <h2> Execute Query SQL</h2>
     <p>select * from db1.table_test</p>
-    <input v-model="sql" placeholder="SELECT * FROM t1;" />
-    <button @click="querySql" >
+    <el-input v-model="sql" placeholder="SELECT * FROM t1;" />
+    <el-button type="primary" @click="querySql" >
       Run
-    </button>
+    </el-button>
     <div class="sql_result">
     <p>SQL Result</p>
     <ul>
