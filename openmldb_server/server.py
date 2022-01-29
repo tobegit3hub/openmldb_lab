@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 import openmldb.dbapi
 
@@ -29,8 +29,18 @@ def get_dbs():
 @cross_origin()
 def get_tables():
     tables = cursor.get_all_tables()
-    #import ipdb;ipdb.set_trace()
-    return jsonify(tables=tables)
+    result = {"tables": tables}
+    return jsonify(result)
+
+@app.route('/api/executesql', methods=['GET'])
+@cross_origin()
+def execute_sql():
+    sql = request.args["sql"]
+    rs = cursor.execute(sql)
+    # TODO: Support fetch all later
+    row = rs.fetchone()
+    result = {"rows": [list(row)]}
+    return jsonify(result)
 
 def main():
   app.run(host="0.0.0.0")
