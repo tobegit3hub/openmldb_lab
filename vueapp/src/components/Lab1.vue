@@ -1,6 +1,6 @@
 <template>
 
-<div class="console">
+<div class="lab1">
   <div class="db_list">
     <h2>Databases</h2>
     <ul>
@@ -41,7 +41,7 @@
 
 <script>
 export default {
-  name: 'Console',
+  name: 'Lab1',
   props: {
     msg: String
   },
@@ -60,6 +60,7 @@ export default {
     }
   },
   methods: {
+    
     executeSql() {
       fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.sql)
         .then(response => response.json())
