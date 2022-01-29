@@ -13,14 +13,14 @@
     <el-submenu index="2">
       <template slot="title">Lab</template>
       <el-menu-item index="2-1">Lab1</el-menu-item>
+      <el-menu-item index="2-2">Lab2</el-menu-item>
     </el-submenu>
     <el-menu-item index="3"><a href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">Github</a></el-menu-item>
   </el-menu>
   
-  
 	<Console v-if="show_console"/>
   <Lab1 v-if="show_lab1" />
-  
+  <Lab2 v-if="show_lab2" />
   
   </div>
 </template>
@@ -28,18 +28,21 @@
 <script>
 import Console from './components/Console.vue'
 import Lab1 from './components/Lab1.vue'
+import Lab2 from './components/Lab2.vue'
 
 export default {
   name: 'App',
   components: {
     Console,
-    Lab1
+    Lab1,
+    Lab2,
   },
   data() {
     return {
       activeIndex: '1',
       show_console: true,
       show_lab1: false,
+      show_lab2: false,
     };
   },
   methods: {
@@ -48,9 +51,15 @@ export default {
       if (key == "1") {
         this.show_console = true
         this.show_lab1 = false
+        this.show_lab2 = false
       } else if (key == "2-1") {
         this.show_console = false
         this.show_lab1 = true
+        this.show_lab2 = false
+      } else if (key == "2-2") {
+        this.show_console = false
+        this.show_lab1 = false
+        this.show_lab2 = true
       }
     }
   }
