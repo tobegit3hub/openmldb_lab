@@ -1,7 +1,6 @@
 <template>
 
 <div class="lab1">
-  
 
   <h2>Lab 1</h2>
   <p>Introduction: use basic SQL operations</p>
@@ -20,7 +19,29 @@
     <button @click="executeCreateTableSql">Run</button>
     <p v-if="createTableSqlSuccess!=null">Success: {{ createTableSqlSuccess }}</p>
     <p v-if="createTableSqlSuccess==false">Error: {{ createTableSqlError }}</p>
-  </div>  
+  </div>
+
+  <div class="step">
+    <p>Step3: Insert data into table</p>
+    <input v-model="insertSql" />
+    <button @click="executeInsertSql">Run</button>
+    <p v-if="insertSqlSuccess!=null">Success: {{ insertSqlSuccess }}</p>
+    <p v-if="insertSqlSuccess==false">Error: {{ insertSqlError }}</p>
+  </div>
+  
+  <div class="step">
+    <p>Step4: Select data from table</p>
+    <input v-model="selectSql" />
+    <button @click="executeSelectSql">Run</button>
+    <p v-if="selectSqlSuccess!=null">Success: {{ selectSqlSuccess }}</p>
+    <p v-if="selectSqlSuccess==false">Error: {{ selectSqlError }}</p>
+    <p>Result of {{ selectSql }}: </p>
+    <ul>
+      <li v-for="row in selectResultRows" :key="row">
+        {{ row }}
+      </li>
+    </ul>
+  </div>
   
 </div>
 
@@ -29,19 +50,25 @@
 <script>
 export default {
   name: 'Lab1',
-  props: {
-  },
-  created() {
-  },
   data: function() {
     return {
       createDbSql: "CREATE DATABASE db1",
       createDbSqlSuccess: null,
       createDbSqlError: "",
+      
       createTableSql: "CREATE TABLE db1.t1 (c1 INT, c2 STRING)",
       createTableSqlSuccess: null,
       createTableSqlError: "",
-      sqlResultRows: []
+      
+      insertSql: "INSERT INTO t1 VALUES (10, 'foo')",
+      insertSqlSuccess: null,
+      insertSqlError: "",
+      
+      selectSql: "SELECT * FROM t1",
+      selectSqlSuccess: null,
+      selectSqlError: "",
+      selectResultRows: [],
+      
     }
   },
   methods: {
@@ -65,7 +92,33 @@ export default {
             this.createTableSqlError = json.error
           }
         })
+    },
+    
+    executeInsertSql() {
+      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.insertSql)
+        .then(response => response.json())
+        .then(json => {
+          this.insertSqlSuccess = json.success
+          if (typeof json.error != "undefined") {
+            this.insertSqlError = json.error
+          }
+        })
+    },
+    
+    executeSelectSql() {
+      fetch("http://127.0.0.1:5000/api/querysql?sql=" + this.selectSql)
+        .then(response => response.json())
+        .then(json => {
+          this.selectSqlSuccess = json.success
+          if (typeof json.error != "undefined") {
+            this.selectSqlError = json.error
+            this.selectResultRows = []
+          } else {
+            this.selectResultRows = json.rows
+          }
+        })
     }
+    
   }
 }
 </script>

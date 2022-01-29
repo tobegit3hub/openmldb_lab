@@ -47,10 +47,13 @@ def execute_sql():
 @cross_origin()
 def query_sql():
     sql = request.args["sql"]
-    rs = cursor.execute(sql)
-    # TODO: Support fetch all later
-    row = rs.fetchone()
-    result = {"rows": [list(row)]}
+    try:
+        rs = cursor.execute(sql)
+        # TODO: Support fetch all later
+        row = rs.fetchone()
+        result = {"success": True, "rows": [list(row)]}
+    except Exception as e:
+        result = {"success": False, "error": str(e)}
     return jsonify(result)
 
 def main():
