@@ -12,10 +12,11 @@
 
   <div class="table_list">
     <h2>Tables</h2>
+
     <ul>
-      <li>t1</li>
-      <li>t2</li>
-      <li>t3</li>
+      <li v-for="table in tables" :key="table">
+        {{ table }}
+      </li>
     </ul>
   </div>
   
@@ -34,7 +35,20 @@ export default {
   name: 'Console',
   props: {
     msg: String
+  },
+  created() {
+     fetch("http://127.0.0.1:5000/api/tables")
+               .then(response => response.json())
+               .then(json => {
+                 this.tables = json.tables   
+               })
+  },
+  data: function() {
+    return {
+      tables: []
+    }
   }
+  
 }
 </script>
 
