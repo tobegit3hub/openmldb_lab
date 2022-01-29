@@ -11,7 +11,7 @@ app = Flask(__name__,
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-db = openmldb.dbapi.connect("db_test", "127.0.0.1:6181", "/onebox")
+db = openmldb.dbapi.connect("db1", "127.0.0.1:6181", "/onebox")
 cursor = db.cursor()
 
 @app.route('/')
@@ -35,6 +35,17 @@ def get_tables():
 @app.route('/api/executesql', methods=['GET'])
 @cross_origin()
 def execute_sql():
+    sql = request.args["sql"]
+    try:
+        cursor.execute(sql)
+        result = {"success": True}
+    except Exception as e:
+        result = {"success": False, "error": str(e)}
+    return jsonify(result)
+
+@app.route('/api/querysql', methods=['GET'])
+@cross_origin()
+def query_sql():
     sql = request.args["sql"]
     rs = cursor.execute(sql)
     # TODO: Support fetch all later

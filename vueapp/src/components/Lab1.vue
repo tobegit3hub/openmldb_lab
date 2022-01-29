@@ -1,40 +1,27 @@
 <template>
 
 <div class="lab1">
-  <div class="db_list">
-    <h2>Databases</h2>
-    <ul>
-      <li>db1</li>
-      <li>db2</li>
-      <li>db3</li>
-    </ul>
-  </div>
+  
 
-  <div class="table_list">
-    <h2>Tables</h2>
-    <ul>
-      <li v-for="table in tables" :key="table">
-        {{ table }}
-      </li>
-    </ul>
+  <h2>Lab 1</h2>
+  <p>Introduction: use basic SQL operations</p>
+
+  <div class="step">
+    <p>Step1: Create test database</p>
+    <input v-model="createDbSql" />
+    <button @click="executeCreateDbSql">Run</button>
+    <p v-if="createDbSqlSuccess!=null">Success: {{ createDbSqlSuccess }}</p>
+    <p v-if="createDbSqlSuccess==false">Error: {{ createDbSqlError }}</p>
   </div>
   
-  <div class="sql_playground">
-    <h2> Execute SQL</h2>
-    <p>select * from db1.table_test</p>
-    <input v-model="sql" placeholder="SELECT * FROM t1;" />
-    <button @click="executeSql" >
-      Execute
-    </button>
-    <div class="sql_result">
-    <p>SQL Result</p>
-    <ul>
-      <li v-for="row in sqlResultRows" :key="row">
-        {{ row }}
-      </li>
-    </ul>
-    </div>
-  </div>
+  <div class="step">
+    <p>Step2: Create test table</p>
+    <input v-model="createTableSql" />
+    <button @click="executeCreateTableSql">Run</button>
+    <p v-if="createTableSqlSuccess!=null">Success: {{ createTableSqlSuccess }}</p>
+    <p v-if="createTableSqlSuccess==false">Error: {{ createTableSqlError }}</p>
+  </div>  
+  
 </div>
 
 </template>
@@ -43,29 +30,40 @@
 export default {
   name: 'Lab1',
   props: {
-    msg: String
   },
   created() {
-     fetch("http://127.0.0.1:5000/api/tables")
-               .then(response => response.json())
-               .then(json => {
-                 this.tables = json.tables
-               })
   },
   data: function() {
     return {
-      tables: [],
-      sql: "",
+      createDbSql: "CREATE DATABASE db1",
+      createDbSqlSuccess: null,
+      createDbSqlError: "",
+      createTableSql: "CREATE TABLE db1.t1 (c1 INT, c2 STRING)",
+      createTableSqlSuccess: null,
+      createTableSqlError: "",
       sqlResultRows: []
     }
   },
   methods: {
-    
-    executeSql() {
-      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.sql)
+    executeCreateDbSql() {
+      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.createDbSql)
         .then(response => response.json())
         .then(json => {
-          this.sqlResultRows = json.rows
+          this.createDbSqlSuccess = json.success
+          if (typeof json.error != "undefined") {
+            this.createDbSqlError = json.error
+          }
+        })
+    },
+  
+    executeCreateTableSql() {
+      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.createTableSql)
+        .then(response => response.json())
+        .then(json => {
+          this.createTableSqlSuccess = json.success
+          if (typeof json.error != "undefined") {
+            this.createTableSqlError = json.error
+          }
         })
     }
   }

@@ -20,11 +20,11 @@
   </div>
   
   <div class="sql_playground">
-    <h2> Execute SQL</h2>
+    <h2> Execute Query SQL</h2>
     <p>select * from db1.table_test</p>
     <input v-model="sql" placeholder="SELECT * FROM t1;" />
-    <button @click="executeSql" >
-      Execute
+    <button @click="querySql" >
+      Run
     </button>
     <div class="sql_result">
     <p>SQL Result</p>
@@ -60,8 +60,8 @@ export default {
     }
   },
   methods: {
-    executeSql() {
-      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.sql)
+    querySql() {
+      fetch("http://127.0.0.1:5000/api/querysql?sql=" + this.sql)
         .then(response => response.json())
         .then(json => {
           this.sqlResultRows = json.rows
