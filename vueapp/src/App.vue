@@ -2,7 +2,6 @@
   <div id="app">
 
   <el-menu
-    :default-active="activeIndex"
     class="el-menu-demo"
     mode="horizontal"
     @select="handleSelect"
@@ -11,16 +10,19 @@
     active-text-color="#ffd04b">
     <el-menu-item index="1">Console</el-menu-item>
     <el-submenu index="2">
-      <template slot="title">Lab</template>
-      <el-menu-item index="2-1">Lab1</el-menu-item>
-      <el-menu-item index="2-2">Lab2</el-menu-item>
+      <template slot="title">Labs</template>
+      <el-menu-item index="2-1">Lab1: Basic SQL</el-menu-item>
+      <el-menu-item index="2-2">Lab2: Online/Offline Mode</el-menu-item>
+      <el-menu-item index="2-3">Lab3: End-to-end Demo</el-menu-item>
     </el-submenu>
-    <el-menu-item index="3"><a href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">Github</a></el-menu-item>
+    <el-menu-item index="3">Playground</el-menu-item>
+    <el-menu-item index="4">SQL Debugger</el-menu-item>
+    <el-menu-item index="5"><a href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">Github</a></el-menu-item>
   </el-menu>
   
-	<Console v-if="show_console"/>
-  <Lab1 v-if="show_lab1" />
-  <Lab2 v-if="show_lab2" />
+	<Console v-if="activeIndex=='1'"/>
+  <Lab1 v-if="activeIndex=='2-1'" />
+  <Lab2 v-if="activeIndex=='2-2'" />
   
   </div>
 </template>
@@ -40,27 +42,12 @@ export default {
   data() {
     return {
       activeIndex: '1',
-      show_console: true,
-      show_lab1: false,
-      show_lab2: false,
     };
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-      if (key == "1") {
-        this.show_console = true
-        this.show_lab1 = false
-        this.show_lab2 = false
-      } else if (key == "2-1") {
-        this.show_console = false
-        this.show_lab1 = true
-        this.show_lab2 = false
-      } else if (key == "2-2") {
-        this.show_console = false
-        this.show_lab1 = false
-        this.show_lab2 = true
-      }
+      console.log(key, keyPath)
+      this.activeIndex = key
     }
   }
 }

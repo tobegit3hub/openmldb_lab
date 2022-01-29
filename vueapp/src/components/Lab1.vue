@@ -54,7 +54,7 @@
   <div class="step">
     <p>Step6: Drop test database</p>
     <el-input v-model="dropDbSql" />
-    <el-button type="primary" @click="executeDropTableSql">Run</el-button>
+    <el-button type="primary" @click="executeDropDbSql">Run</el-button>
     <p v-if="dropDbSqlSuccess!=null">Success: {{ dropDbSqlSuccess }}</p>
     <p v-if="dropDbSqlSuccess==false">Error: {{ dropDbSqlError }}</p>
   </div>
