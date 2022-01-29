@@ -43,6 +43,22 @@
     </ul>
   </div>
   
+  <div class="step">
+    <p>Step5: Drop test table</p>
+    <input v-model="dropTableSql" />
+    <button @click="executeDropTableSql">Run</button>
+    <p v-if="dropTableSqlSuccess!=null">Success: {{ dropTableSqlSuccess }}</p>
+    <p v-if="dropTableSqlSuccess==false">Error: {{ dropTableSqlError }}</p>
+  </div>
+  
+  <div class="step">
+    <p>Step6: Drop test database</p>
+    <input v-model="dropDbSql" />
+    <button @click="executeDropTableSql">Run</button>
+    <p v-if="dropDbSqlSuccess!=null">Success: {{ dropDbSqlSuccess }}</p>
+    <p v-if="dropDbSqlSuccess==false">Error: {{ dropDbSqlError }}</p>
+  </div>
+  
 </div>
 
 </template>
@@ -68,6 +84,14 @@ export default {
       selectSqlSuccess: null,
       selectSqlError: "",
       selectResultRows: [],
+      
+      dropTableSql: "DROP TABLE t1",
+      dropTableSqlSuccess: null,
+      dropTableSqlError: "",
+      
+      dropDbSql: "DROP DATABASE db1",
+      dropDbSqlSuccess: null,
+      dropDbSqlError: "",
       
     }
   },
@@ -117,8 +141,30 @@ export default {
             this.selectResultRows = json.rows
           }
         })
-    }
+    },
     
+    executeDropTableSql() {
+      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.dropTableSql)
+        .then(response => response.json())
+        .then(json => {
+          this.dropTableSqlSuccess = json.success
+          if (typeof json.error != "undefined") {
+            this.dropTableSqlError = json.error
+          }
+        })
+    },
+    
+    executeDropDbSql() {
+      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.dropDbSql)
+        .then(response => response.json())
+        .then(json => {
+          this.dropDbSqlSuccess = json.success
+          if (typeof json.error != "undefined") {
+            this.dropDbSqlError = json.error
+          }
+        })
+    },
+        
   }
 }
 </script>
