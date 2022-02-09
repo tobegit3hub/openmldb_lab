@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 import openmldb.dbapi
@@ -8,7 +9,8 @@ app = Flask(__name__,
             template_folder="./dist/",
             static_folder="./dist",
             static_url_path="")
-cors = CORS(app)
+cors = CORS(app, resources=r'/*')
+
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 db = openmldb.dbapi.connect("db1", "127.0.0.1:6181", "/onebox")
