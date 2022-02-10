@@ -41,22 +41,25 @@ def get_tables():
 @cross_origin()
 def execute_sql():
     sql = request.args["sql"]
-    try:
-        cursor.execute(sql)
-        result = {"success": True}
-    except Exception as e:
-        result = {"success": False, "error": str(e)}
-    return jsonify(result)
 
-@app.route('/api/querysql', methods=['GET'])
-@cross_origin()
-def query_sql():
-    sql = request.args["sql"]
     try:
-        rs = cursor.execute(sql)
-        # TODO: Support fetch all later
-        row = rs.fetchone()
-        result = {"success": True, "rows": [list(row)]}
+        result = cursor.execute(sql)
+
+        # TODO: check if sql is select sql or execute sql
+
+
+        schema = result.get_resultset_schema()
+        row = result.fetchone()
+
+        col_num = len(schema)
+        row_data = {}
+        for i in range(col_num):
+            col_name = schema[i]["name"]
+            col_value = row[i]
+            row_data[col_name] = col_value
+        data_list = [row_data]
+
+        result = {"success": True, "rows": data_list, "schema": schema, "query_sql": True}
     except Exception as e:
         result = {"success": False, "error": str(e)}
     return jsonify(result)

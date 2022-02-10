@@ -17,10 +17,10 @@
     </el-submenu>
     <el-menu-item index="3">Playground</el-menu-item>
     <el-menu-item index="4">SQL Debugger</el-menu-item>
-    <el-submenu>
+    <el-submenu index="5">
       <template slot="title">Github</template>
-      <el-menu-item><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
-      <el-menu-item><el-link type="primary" href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">OpenMLDB Lab</el-link></el-menu-item>
+      <el-menu-item index="5-1"><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
+      <el-menu-item index="5-2"><el-link type="primary" href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">OpenMLDB Lab</el-link></el-menu-item>
     </el-submenu>    
     
   </el-menu>
