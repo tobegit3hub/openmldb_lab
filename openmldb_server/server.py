@@ -61,6 +61,31 @@ def query_sql():
         result = {"success": False, "error": str(e)}
     return jsonify(result)
 
+@app.route('/api/tabledata', methods=['GET'])
+@cross_origin()
+def get_table_data():
+    table_name = request.args["table"]
+    sql = "SELECT * FROM {} LIMIT 3".format(table_name)
+    try:
+        result = cursor.execute(sql)
+        # TODO: Change to fetch many instead of using limit
+        schema = result.get_resultset_schema()
+        row = result.fetchone()
+
+        col_num = len(schema)
+        row_data = {}
+        for i in range(col_num):
+            col_name = schema[i]["name"]
+            col_value = row[i]
+            row_data[col_name] = col_value
+        # TODO: Get multiple rows instead of one row
+        data_list = [row_data]
+
+        result = {"success": True, "rows": data_list, "schema": schema}
+    except Exception as e:
+        result = {"success": False, "error": str(e)}
+    return jsonify(result)
+
 def main():
   app.run(host="0.0.0.0", port=5000)
 

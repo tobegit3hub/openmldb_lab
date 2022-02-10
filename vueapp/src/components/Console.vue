@@ -3,7 +3,7 @@
 <div class="console">
   
   <el-row :gutter="24">
-    <el-col :span="6">
+    <el-col :span="5">
       <div class="grid-content db_list">
         <h3>Databases</h3>
 
@@ -13,6 +13,7 @@
             highlight-current-row
             style="width: 100%">
             <el-table-column
+              align="center"
               prop="name">
             </el-table-column>
           </el-table>
@@ -21,8 +22,7 @@
       </div>
     </el-col>
     
-    
-    <el-col :span="6">
+    <el-col :span="5">
       <div class="grid-content table_list">
         <h3>Tables</h3>
         
@@ -30,26 +30,43 @@
           <el-table
             :data="tableListData"
             highlight-current-row
+            @current-change="handleSelectTable"
             style="width: 100%">
             <el-table-column
+              align="center"
               prop="name">
             </el-table-column>
           </el-table>
         </template>
         
-        
       </div>
     </el-col>
     
-    <el-col :span="12">
-      <div class="grid-content table_info">
-        <h3>Table Info</h3>
+    <el-col :span="14">
+      <div class="grid-content table_data">
+        <h3>Table Data</h3>
+        
+        <el-table
+          :data="tableDataList"
+          stripe
+          style="width: 100%">
+        
+          <template v-for='(schema) in tableDataSchemaList'>
+            <el-table-column
+              sortable
+              :show-overflow-tooltip="true"
+              :prop="schema.name"
+              :label="schema.name + '(' + schema.type + ')'"
+              :key="schema.name">
+            </el-table-column>
+          </template>
+        
+      </el-table>
         
       </div>
     </el-col>
   </el-row>
   
-
   
   <div class="execute_sql">
     <h2> Execute Query SQL</h2>
@@ -89,16 +106,42 @@ export default {
       databaseListData: [{name: "db1"}, {name: "db2"}, {name: "db3"}, {name: "db4"}],
       tableListData: [],
       sql: "",
-      sqlResultRows: []
+      sqlResultRows: [],
+      tableDataList: [],
+      tableDataSchemaList: []
     }
   },
   methods: {
+    alertError(errorMessage) {
+      this.$notify({
+        title: "Error",
+        message: errorMessage
+      });
+    },
+    
     querySql() {
       fetch("http://127.0.0.1:5000/api/querysql?sql=" + this.sql)
         .then(response => response.json())
         .then(json => {
           this.sqlResultRows = json.rows
         })
+    },
+    
+    handleSelectTable(val) {
+      console.log("tobetobe");
+      var talbeName = val.name;
+
+      fetch("http://127.0.0.1:5000/api/tabledata?table=" + talbeName)
+        .then(response => response.json())
+        .then(json => {
+          this.tableDataList = json.rows
+          this.tableDataSchemaList = json.schema
+          
+          if (json.success == false) {
+            this.alertError(json.error)
+          }
+        })      
+      
     }
   }
 }
