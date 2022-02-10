@@ -44,31 +44,33 @@ def execute_sql():
 
     try:
         result = cursor.execute(sql)
+        # Check if sql is select sql or execute sql
+        is_query_sql = sql.lower().startswith("select")
+        response = {"success": True, "query_sql": is_query_sql}
 
-        # TODO: check if sql is select sql or execute sql
+        if is_query_sql:
+            schema = result.get_resultset_schema()
+            row = result.fetchone()
 
+            col_num = len(schema)
+            row_data = {}
+            for i in range(col_num):
+                col_name = schema[i]["name"]
+                col_value = row[i]
+                row_data[col_name] = col_value
+            data_list = [row_data]
+            response["rows"] = data_list
+            response["schema"] = schema
 
-        schema = result.get_resultset_schema()
-        row = result.fetchone()
-
-        col_num = len(schema)
-        row_data = {}
-        for i in range(col_num):
-            col_name = schema[i]["name"]
-            col_value = row[i]
-            row_data[col_name] = col_value
-        data_list = [row_data]
-
-        result = {"success": True, "rows": data_list, "schema": schema, "query_sql": True}
     except Exception as e:
-        result = {"success": False, "error": str(e)}
-    return jsonify(result)
+        response = {"success": False, "error": str(e)}
+    return jsonify(response)
 
 @app.route('/api/tabledata', methods=['GET'])
 @cross_origin()
 def get_table_data():
     table_name = request.args["table"]
-    sql = "SELECT * FROM {} LIMIT 3".format(table_name)
+    sql = "SELECT * FROM {} LIMIT 10".format(table_name)
     try:
         result = cursor.execute(sql)
         # TODO: Change to fetch many instead of using limit

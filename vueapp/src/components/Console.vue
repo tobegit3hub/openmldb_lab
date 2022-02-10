@@ -111,16 +111,13 @@ export default {
     msg: String
   },
   created() {
-     fetch("http://127.0.0.1:5000/api/tables")
-               .then(response => response.json())
-               .then(json => {
-                 this.tableListData = json.tables
-               })
+     this.refreshTableList()
   },
   data: function() {
     return {
       databaseListData: [{name: "db1"}, {name: "db2"}, {name: "db3"}, {name: "db4"}],
       tableListData: [],
+      selectedTable: "",
       tableDataList: [],
       tableDataSchemaList: [],
       executeSqlText: "",
@@ -129,22 +126,41 @@ export default {
     }
   },
   methods: {
-    alertError(errorMessage) {
+    notifyError(errorMessage) {
       this.$notify({
         title: "Error",
         message: errorMessage
       });
     },
     
+    notifySuccess(sqlText) {
+      this.$notify({
+        title: "Success",
+        message: "Success to execute " + sqlText
+      });
+    },
+    
+    refreshTableList() {
+      fetch("http://127.0.0.1:5000/api/tables")
+                .then(response => response.json())
+                .then(json => {
+                  this.tableListData = json.tables
+                })
+    },
+    
     handleSelectTable(val) {
-      var talbeName = val.name;
-
-      fetch("http://127.0.0.1:5000/api/tabledata?table=" + talbeName)
+      var tableName = val.name
+      this.refreshTableData(tableName)
+    },
+    
+    refreshTableData(tableName) {    
+      fetch("http://127.0.0.1:5000/api/tabledata?table=" + tableName)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
-            this.alertError(json.error)
+            this.notifyError(json.error)
           } else {
+            this.selectedTable = tableName
             this.tableDataList = json.rows
             this.tableDataSchemaList = json.schema
           }
@@ -156,10 +172,16 @@ export default {
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
-            this.alertError(json.error)
+            this.notifyError(json.error)
           } else {
-            this.executeSqlDataList = json.rows
-            this.executeSqlSchemaList = json.schema
+            this.notifySuccess(this.executeSqlText)
+            if (json.query_sql) {
+              this.executeSqlDataList = json.rows
+              this.executeSqlSchemaList = json.schema
+            } else {
+              this.refreshTableList()
+              this.refreshTableData(this.selectedTable)
+            }
           }
         })
     },
