@@ -30,8 +30,11 @@ def get_dbs():
 @app.route('/api/tables')
 @cross_origin()
 def get_tables():
-    tables = cursor.get_all_tables()
-    result = {"tables": tables}
+    tableNames = cursor.get_all_tables()
+    tableNameMap = []
+    for tableName in tableNames:
+        tableNameMap.append({"name": tableName})
+    result = {"tables": tableNameMap}
     return jsonify(result)
 
 @app.route('/api/executesql', methods=['GET'])

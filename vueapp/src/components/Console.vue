@@ -1,25 +1,57 @@
 <template>
 
 <div class="console">
-  <div class="db_list">
-    <h2>Databases</h2>
-    <ul>
-      <li>db1</li>
-      <li>db2</li>
-      <li>db3</li>
-    </ul>
-  </div>
-
-  <div class="table_list">
-    <h2>Tables</h2>
-    <ul>
-      <li v-for="table in tables" :key="table">
-        {{ table }}
-      </li>
-    </ul>
-  </div>
   
-  <div class="sql_playground">
+  <el-row :gutter="24">
+    <el-col :span="6">
+      <div class="grid-content db_list">
+        <h3>Databases</h3>
+
+        <template>
+          <el-table
+            :data="databaseListData"
+            highlight-current-row
+            style="width: 100%">
+            <el-table-column
+              prop="name">
+            </el-table-column>
+          </el-table>
+        </template>
+        
+      </div>
+    </el-col>
+    
+    
+    <el-col :span="6">
+      <div class="grid-content table_list">
+        <h3>Tables</h3>
+        
+        <template>
+          <el-table
+            :data="tableListData"
+            highlight-current-row
+            style="width: 100%">
+            <el-table-column
+              prop="name">
+            </el-table-column>
+          </el-table>
+        </template>
+        
+        
+      </div>
+    </el-col>
+    
+    <el-col :span="12">
+      <div class="grid-content table_info">
+        <h3>Table Info</h3>
+        
+      </div>
+    </el-col>
+  </el-row>
+  
+
+  
+  <div class="execute_sql">
     <h2> Execute Query SQL</h2>
     <p>select * from db1.table_test</p>
     <el-input v-model="sql" placeholder="SELECT * FROM t1;" />
@@ -49,12 +81,13 @@ export default {
      fetch("http://127.0.0.1:5000/api/tables")
                .then(response => response.json())
                .then(json => {
-                 this.tables = json.tables
+                 this.tableListData = json.tables
                })
   },
   data: function() {
     return {
-      tables: [],
+      databaseListData: [{name: "db1"}, {name: "db2"}, {name: "db3"}, {name: "db4"}],
+      tableListData: [],
       sql: "",
       sqlResultRows: []
     }
@@ -87,4 +120,32 @@ li {
 a {
   color: #42b983;
 }
+
+  /* Refer to https://element.eleme.cn/#/zh-CN/component/layout */
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    border-radius: 4px;
+  }
+  .bg-purple-dark {
+    background: #99a9bf;
+  }
+  .bg-purple {
+    background: #d3dce6;
+  }
+  .bg-purple-light {
+    background: #e5e9f2;
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
 </style>
