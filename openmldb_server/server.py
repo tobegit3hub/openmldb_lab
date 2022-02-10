@@ -24,8 +24,12 @@ def index():
 @app.route('/api/dbs')
 @cross_origin()
 def get_dbs():
-    # TODO: Not supported yet
-    return render_template("index.html")
+    dbNames = cursor.get_databases()
+    dbNameMapList = []
+    for dbName in dbNames:
+        dbNameMapList.append({"name": dbName})
+    result = {"databases": dbNameMapList}
+    return jsonify(result)
 
 @app.route('/api/tables')
 @cross_origin()

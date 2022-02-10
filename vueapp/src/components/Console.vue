@@ -111,7 +111,8 @@ export default {
     msg: String
   },
   created() {
-     this.refreshTableList()
+    this.refreshDbList()
+    this.refreshTableList()
   },
   data: function() {
     return {
@@ -138,6 +139,14 @@ export default {
         title: "Success",
         message: "Success to execute " + sqlText
       });
+    },
+    
+    refreshDbList() {
+      fetch("http://127.0.0.1:5000/api/dbs")
+                .then(response => response.json())
+                .then(json => {
+                  this.databaseListData = json.databases
+                })
     },
     
     refreshTableList() {
@@ -179,6 +188,7 @@ export default {
               this.executeSqlDataList = json.rows
               this.executeSqlSchemaList = json.schema
             } else {
+              this.refreshDbList()
               this.refreshTableList()
               this.refreshTableData(this.selectedTable)
             }
