@@ -21,7 +21,7 @@ cursor = db.cursor()
 def index():
     return render_template("index.html")
 
-@app.route('/api/dbs')
+@app.route('/api/dbs', methods=['GET'])
 @cross_origin()
 def get_dbs():
     dbNames = cursor.get_databases()
@@ -31,10 +31,11 @@ def get_dbs():
     result = {"databases": dbNameMapList}
     return jsonify(result)
 
-@app.route('/api/tables')
+@app.route('/api/tables', methods=['GET'])
 @cross_origin()
 def get_tables():
-    tableNames = cursor.get_all_tables()
+    dbName = request.args["db"]
+    tableNames = cursor.get_tables(dbName)
     tableNameMap = []
     for tableName in tableNames:
         tableNameMap.append({"name": tableName})

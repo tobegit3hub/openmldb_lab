@@ -10,8 +10,10 @@
 
           <template>
             <el-table
+              ref="databaseListTable"
               :data="databaseListData"
               highlight-current-row
+              @current-change="handleSelectDb"
               style="width: 100%">
               <el-table-column
                 align="center"
@@ -29,6 +31,7 @@
           
           <template>
             <el-table
+              ref="tableListTable"
               :data="tableListData"
               highlight-current-row
               @current-change="handleSelectTable"
@@ -116,7 +119,8 @@ export default {
   },
   data: function() {
     return {
-      databaseListData: [{name: "db1"}, {name: "db2"}, {name: "db3"}, {name: "db4"}],
+      databaseListData: [],
+      selectedDb: "",
       tableListData: [],
       selectedTable: "",
       tableDataList: [],
@@ -126,6 +130,14 @@ export default {
       executeSqlSchemaList: [],
     }
   },
+  /*
+  watch: {
+    databaseListData: function (val: any) {
+      this.$nextTick(() => {
+        (this.$refs.databaseListTable as any).setCurrentRow(val[0]);
+      });
+    }
+    },*/
   methods: {
     notifyError(errorMessage) {
       this.$notify({
@@ -139,7 +151,7 @@ export default {
         title: "Success",
         message: "Success to execute " + sqlText
       });
-    },
+    },  
     
     refreshDbList() {
       fetch("http://127.0.0.1:5000/api/dbs")
@@ -147,18 +159,34 @@ export default {
                 .then(json => {
                   this.databaseListData = json.databases
                 })
+
+        
     },
     
-    refreshTableList() {
-      fetch("http://127.0.0.1:5000/api/tables")
-                .then(response => response.json())
-                .then(json => {
-                  this.tableListData = json.tables
-                })
+    handleSelectDb(val) {
+      console.log("handle select db")
+      console.log(val)
+      
+      var dbName = val.name
+      this.selectedDb = dbName
+      this.refreshTableList(dbName)
+    },
+    
+    refreshTableList(dbName) {
+      fetch("http://127.0.0.1:5000/api/tables?db=" + dbName)
+        .then(response => response.json())
+        .then(json => {
+          if (json.success == false) {
+            this.notifyError(json.error)
+          } else {
+            this.tableListData = json.tables
+          }
+        })
     },
     
     handleSelectTable(val) {
       var tableName = val.name
+      this.selectedTable = tableName
       this.refreshTableData(tableName)
     },
     
@@ -169,7 +197,6 @@ export default {
           if (json.success == false) {
             this.notifyError(json.error)
           } else {
-            this.selectedTable = tableName
             this.tableDataList = json.rows
             this.tableDataSchemaList = json.schema
           }
@@ -189,7 +216,7 @@ export default {
               this.executeSqlSchemaList = json.schema
             } else {
               this.refreshDbList()
-              this.refreshTableList()
+              this.refreshTableList(this.selectedDb)
               this.refreshTableData(this.selectedTable)
             }
           }
