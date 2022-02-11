@@ -12,19 +12,14 @@
         
         <el-button type="primary" @click="addEmptyBlock" icon="el-icon-folder-add" id="addBlockButton">Add Block</el-button>
 
-
-
-        <input type="file" ref="importNotebookJsonInputFile" @change="importNotebookJson" />
-
-    
-        <!-- Hide the file input and trigger by following button 
-        <input type="file"
-               id="upload_notebook_json"
-               :ref="doc"
-               style="display: none;"
-               @change="readFile">
+        <!-- Hide the file input and trigger by following button -->
+        <input type="file" 
+          ref="importNotebookJsonInputFile" 
+          @change="importNotebookJson" 
+          id="upload_notebook_json"
+          style="display: none;"
+          />
         <el-button icon="el-icon-upload2" onclick="document.control_block_form.upload_notebook_json.click()">Import Notebook</el-button>
-        -->
         
         <el-button @click="exportNotebookJson" icon="el-icon-download">Export Notebook</el-button>
 
