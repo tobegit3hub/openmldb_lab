@@ -238,7 +238,7 @@ export default {
       const requestOptions = {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({sql: this.executeSqlText, foo: "bar"})
+          body: JSON.stringify({sql: this.executeSqlText})
         };
       
       fetch("http://127.0.0.1:5000/api/executesql", requestOptions)
