@@ -168,16 +168,13 @@ export default {
   
   methods: {
     notifyError(errorMessage) {
-      this.$notify({
-        title: "Error",
-        message: errorMessage
-      });
+      this.$message.error(errorMessage);
     },
     
-    notifySuccess(sqlText) {
-      this.$notify({
-        title: "Success",
-        message: "Success to execute " + sqlText
+    notifySuccess(sqlText) {      
+      this.$message({
+        message: "Success to execute " + sqlText,
+        type: "success"
       });
     },  
     

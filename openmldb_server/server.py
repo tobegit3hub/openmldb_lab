@@ -61,12 +61,15 @@ def execute_sql():
             row = result.fetchone()
 
             col_num = len(schema)
-            row_data = {}
-            for i in range(col_num):
-                col_name = schema[i]["name"]
-                col_value = row[i]
-                row_data[col_name] = col_value
-            data_list = [row_data]
+            if row is not None:
+                row_data = {}
+                for i in range(col_num):
+                    col_name = schema[i]["name"]
+                    col_value = row[i]
+                    row_data[col_name] = col_value
+                data_list = [row_data]
+            else:
+                data_list = []
             response["rows"] = data_list
             response["schema"] = schema
 
@@ -86,13 +89,17 @@ def get_table_data():
         row = result.fetchone()
 
         col_num = len(schema)
-        row_data = {}
-        for i in range(col_num):
-            col_name = schema[i]["name"]
-            col_value = row[i]
-            row_data[col_name] = col_value
-        # TODO: Get multiple rows instead of one row
-        data_list = [row_data]
+
+        if row is not None:
+            row_data = {}
+            for i in range(col_num):
+                col_name = schema[i]["name"]
+                col_value = row[i]
+                row_data[col_name] = col_value
+            # TODO: Get multiple rows instead of one row
+            data_list = [row_data]
+        else:
+            data_list = []
 
         result = {"success": True, "rows": data_list, "schema": schema}
     except Exception as e:
