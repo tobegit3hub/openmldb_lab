@@ -4,41 +4,31 @@
 
 
   <div id="plaground_notebook">
+    
     <h2>OpenMLDB Playground</h2>
     
     <div id="control_block">
       <el-button>Import Notebook</el-button>
       <el-button>Export Notebook</el-button>
-      <el-button>Add Text Block</el-button>
-      <el-button>Add SQL Block</el-button>
+      <el-button @click="addEmptyBlock">Add SQL Block</el-button>
       
     </div>
     
-    <div class="notebook_block">
-      <el-input
-        type="textarea"
-        placeholder="请输入内容"
-        v-model="textarea1"
-        show-word-limit
-      >
-      </el-input>
-
-      <el-button type="primary" icon="el-icon-search" circle></el-button>      
-      <el-button type="danger" icon="el-icon-delete" circle></el-button>
-    </div>
-    
-    <div class="notebook_block">
-      <el-input
-        type="textarea"
-        placeholder="请输入内容"
-        v-model="textarea2"
-        show-word-limit
-      >
-      </el-input>
+    <div class="notebook_blocks">
       
-      <el-button>Run</el-button>
-      
-      <el-button>Delete</el-button>
+      <div v-for="block in blocks" :key="block.id" class="notebook_block">
+        
+        <el-input
+          type="textarea"
+          v-model=block.text
+        >
+        </el-input>
+        
+        <el-button type="primary" icon="el-icon-search"></el-button>      
+        <el-button type="danger" icon="el-icon-delete" @click="deleteCurrentBlock(block.id)"></el-button>
+        
+      </div>
+        
     </div>
     
   </div>
@@ -51,21 +41,22 @@ export default {
   name: 'Playground',
   data: function() {
     return {
-      textarea1: "",
-      textarea2: "",
-
+      blocks: [{id: 0, text: "select * from t1"}],
+      newBlockIndex: 1,
     }
   },
   methods: {
-    executeCreateDbSql() {
-      fetch("http://127.0.0.1:5000/api/executesql?sql=" + this.createDbSql)
-        .then(response => response.json())
-        .then(json => {
-          this.createDbSqlSuccess = json.success
-          if (typeof json.error != "undefined") {
-            this.createDbSqlError = json.error
-          }
-        })
+    addEmptyBlock() {
+      this.blocks.push({id: this.newBlockIndex, text: ""})
+      this.newBlockIndex++
+    },
+    
+    deleteCurrentBlock(blockId) {
+      console.log("Call delete current block, id: " + blockId)
+      
+      var index = this.blocks.findIndex(block => block.id == blockId)
+      
+      this.$delete(this.blocks, index)
     },
         
   }
