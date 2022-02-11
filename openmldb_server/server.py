@@ -26,9 +26,12 @@ def index():
 def get_dbs():
     dbNames = cursor.get_databases()
     dbNameMapList = []
-    for dbName in dbNames:
-        dbNameMapList.append({"name": dbName})
-    result = {"databases": dbNameMapList}
+    if isinstance(dbNames, list):
+        for dbName in dbNames:
+            dbNameMapList.append({"name": dbName})
+        result = {"success": True, "databases": dbNameMapList}
+    else:
+        result = {"success": False, "databases": []}
     return jsonify(result)
 
 @app.route('/api/tables', methods=['GET'])

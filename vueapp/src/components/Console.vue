@@ -120,9 +120,11 @@ export default {
   data: function() {
     return {
       databaseListData: [],
-      selectedDb: "",
+      selectedDb: null,
+      selectedDbItem: null,
       tableListData: [],
-      selectedTable: "",
+      selectedTable: null,
+      selectedTableItem: null,
       tableDataList: [],
       tableDataSchemaList: [],
       executeSqlText: "",
@@ -130,14 +132,34 @@ export default {
       executeSqlSchemaList: [],
     }
   },
-  /*
+  
   watch: {
-    databaseListData: function (val: any) {
-      this.$nextTick(() => {
-        (this.$refs.databaseListTable as any).setCurrentRow(val[0]);
-      });
-    }
-    },*/
+    databaseListData: function () {
+      this.$nextTick(function() {
+        if (this.databaseListData.length > 0) {
+          if (this.selectedDbItem == null) {
+            // Set default selected database
+            this.$refs.databaseListTable.setCurrentRow(this.databaseListData[0])
+            this.selectedDbItem = this.databaseListData[0]
+            this.selectedDb = this.selectedDbItem.name
+          } else {
+            // TODO: This does not work when inserting new item
+            this.$refs.databaseListTable.setCurrentRow(this.selectedDbItem)
+            this.selectedDb = this.selectedDbItem.name
+          }
+        }
+      })
+    },
+    
+    tableListData: function () {
+      this.$nextTick(function() {
+        if (this.selectedTableItem == null) {
+          this.$refs.tableListTable.setCurrentRow(this.tableListData[0])
+        }
+      })
+    },
+  },
+  
   methods: {
     notifyError(errorMessage) {
       this.$notify({
@@ -158,18 +180,16 @@ export default {
                 .then(response => response.json())
                 .then(json => {
                   this.databaseListData = json.databases
-                })
-
-        
+                })        
     },
     
     handleSelectDb(val) {
-      console.log("handle select db")
-      console.log(val)
-      
-      var dbName = val.name
-      this.selectedDb = dbName
-      this.refreshTableList(dbName)
+      if (val != null) {
+        var dbName = val.name
+        this.selectedDb = dbName
+        this.selectedDbItem = val
+        this.refreshTableList(dbName)
+      }
     },
     
     refreshTableList(dbName) {
@@ -185,9 +205,12 @@ export default {
     },
     
     handleSelectTable(val) {
-      var tableName = val.name
-      this.selectedTable = tableName
-      this.refreshTableData(tableName)
+      if (val != null) {
+        var tableName = val.name
+        this.selectedTable = tableName
+        this.selectedTableItem = val
+        this.refreshTableData(tableName)
+      }
     },
     
     refreshTableData(tableName) {    
