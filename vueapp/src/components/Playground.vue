@@ -29,24 +29,64 @@
     <div class="notebook_blocks">
       
       <div v-for="block in blocks" :key="block.id" class="notebook_block">
-        <form>
-          <el-input
-            type="textarea"
-            v-model=block.text>
-          </el-input>
+        
+        <div>
+
+          <el-row :gutter="24">
+            <el-col :span="23">
+              <el-input
+                type="textarea"
+                v-model=block.sql>
+              </el-input>
+            </el-col>
+            
+            <el-col :span="1">
+              <div v-if="block.success != null">
+                <el-button v-if="block.success == true" slot="reference" type="success" icon="el-icon-success"></el-button>
+                <el-button v-else slot="reference" type="danger" icon="el-icon-error"></el-button>
+              </div>
+            </el-col>
+            
+          </el-row>
           
-          <el-button type="primary" icon="el-icon-search"></el-button>      
+          <div>
+            <el-button type="primary" 
+              icon="el-icon-search" 
+              style="margin-top: 10px;"
+              @click="executeSql(block.id, block.sql)">Run</el-button>      
+            
+            <el-popconfirm
+              title="Confirm to delete?"
+              @confirm="deleteCurrentBlock(block.id)">
+              <el-button slot="reference" type="danger" icon="el-icon-delete" style="margin-left: 10px;">Delete</el-button>
+            </el-popconfirm>
+          </div>
+
+        </div>
+        
+        <div id="execute_sql_result">
           
-          <el-popconfirm
-            title="Confirm to delete?"
-            @confirm="deleteCurrentBlock(block.id)"
-            >
-            <!-- <el-button slot="reference">删除</el-button> -->
-            <el-button slot="reference" type="danger" icon="el-icon-delete"></el-button>
-          </el-popconfirm>
-          
-          
-        </form>
+            <div v-if="block.success != null && block.success == true && block.is_query == true" style="margin-top: 20px;">
+              <el-table
+                :data="block.resultRows"
+                stripe
+                border
+                style="width: 100%">
+              
+                <template v-for='(schema) in block.resultSchema'>
+                  <el-table-column
+                    sortable
+                    :show-overflow-tooltip="true"
+                    :prop="schema.name"
+                    :label="schema.name + '(' + schema.type + ')'"
+                    :key="schema.name">
+                  </el-table-column>
+                </template>
+              </el-table>
+            </div>
+
+        </div>
+        
       </div>
         
     </div>
@@ -61,13 +101,24 @@ export default {
   name: 'Playground',
   data: function() {
     return {
-      blocks: [{id: 0, text: "select * from t1"}],
+      /**
+       * Example struct of block.
+       * {
+       *    id: 0,
+       *    sql: SELECT 100, "foo"},
+       *    success: True,
+       *    is_query: True,
+       *    resultSchema: [],
+       *    resultRows: []
+       * }
+       */
+      blocks: [{id: 0, sql: 'SELECT 100, "foo"', success: null, is_query: null, resultSchema: null, resultRows: null}],
       newBlockIndex: 1,
     }
   },
   methods: {
     addEmptyBlock() {
-      this.blocks.push({id: this.newBlockIndex, text: ""})
+      this.blocks.push({id: this.newBlockIndex, sql: "", success: null, is_query: null, resultSchema: null, resultRows: null})
       this.newBlockIndex++
     },
     
@@ -84,7 +135,7 @@ export default {
       const blob = new Blob([data], {type: 'text/plain'})
       const e = document.createEvent('MouseEvents'),
       a = document.createElement('a');
-      a.download = "test.json";
+      a.download = "openmldb_notebook.json";
       a.href = window.URL.createObjectURL(blob);
       a.dataset.downloadurl = ['text/json', a.download, a.href].join(':');
       e.initEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
@@ -112,7 +163,36 @@ export default {
       } else {
         this.$message.error("Only support json file");
       }
+    },
+    
+    executeSql(blockId, sqlText) {
+      const requestOptions = {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({sql: sqlText})
+        };
       
+      var index = this.blocks.findIndex(block => block.id == blockId)
+      var is_query = sqlText.toLowerCase().startsWith("select")
+      this.blocks[index]["is_query"] = is_query
+      
+      fetch("http://127.0.0.1:5000/api/executesql", requestOptions)
+        .then(response => response.json())
+        .then(json => {
+          if (json.success == false) {
+            this.$message.error(json.error);
+            this.blocks[index]["success"] = false
+          } else {
+            this.$message({
+              message: "Success to execute: " + sqlText,
+              type: "success"
+            });
+            
+            this.blocks[index]["success"] = true
+            this.blocks[index]["resultSchema"] = json.schema
+            this.blocks[index]["resultRows"] = json.rows
+          }
+        })
     },
     
   }
@@ -155,6 +235,7 @@ a {
   
   .notebook_block {
     margin-top: 30px;
+    padding-top: 45px;
   }
   
   #addBlockButton {
