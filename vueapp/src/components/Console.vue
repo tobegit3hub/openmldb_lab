@@ -81,7 +81,7 @@
     <div id="execute_sql_input">
 
       <el-input placeholder="SELECT * FROM t1" v-model="executeSqlText" @keyup.enter.native="executeSql">
-      <el-select id="execute_sql_select_mode" v-model="select" slot="prepend" placeholder="Mode">
+      <el-select id="execute_sql_select_mode" v-model="execute_sql_mode" slot="prepend" placeholder="Mode">
         <el-option label="Online Mode" value="1"></el-option>
         <el-option label="Offline Mode" value="2"></el-option>
       </el-select>
@@ -133,6 +133,7 @@ export default {
       selectedTableItem: null,
       tableDataList: [],
       tableDataSchemaList: [],
+      execute_sql_mode: "online",
       executeSqlText: "",
       executeSqlDataList: [],
       executeSqlSchemaList: [],
@@ -250,7 +251,7 @@ export default {
             } else {
               this.refreshDbList()
               this.refreshTableList(this.selectedDb)
-              this.refreshTableData(this.selectedTable)
+              this.refreshTableData(this.selectedTable)    
             }
           }
         })
