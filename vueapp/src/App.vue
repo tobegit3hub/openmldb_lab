@@ -9,7 +9,7 @@
     text-color="#fff"
     active-text-color="#ffd04b">
     <el-menu-item index="1">Console</el-menu-item>
-    <el-menu-item index="2">Playground</el-menu-item>
+    <el-menu-item index="2">Notebook</el-menu-item>
     <el-submenu index="3">
       <template slot="title">Labs</template>
       <el-menu-item index="3-1">Lab1: Basic SQL</el-menu-item>
@@ -28,7 +28,7 @@
   </el-menu>
   
 	<Console v-if="activeIndex=='1' || activeIndex==null"/>
-  <Playground v-if="activeIndex=='2'" />
+  <Notebook v-if="activeIndex=='2'" />
   <Lab1 v-if="activeIndex=='3-1'" />
   <Lab2 v-if="activeIndex=='3-2'" />
   <Lab3 v-if="activeIndex=='3-3'" />
@@ -38,7 +38,7 @@
 
 <script>
 import Console from './components/Console.vue'
-import Playground from './components/Playground.vue'
+import Notebook from './components/Notebook.vue'
 import Lab1 from './components/Lab1.vue'
 import Lab2 from './components/Lab2.vue'
 import Lab3 from './components/Lab3.vue'
@@ -47,7 +47,7 @@ export default {
   name: 'App',
   components: {
     Console,
-    Playground,
+    Notebook,
     Lab1,
     Lab2,
     Lab3,

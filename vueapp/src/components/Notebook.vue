@@ -1,11 +1,11 @@
 <template>
 
-<div class="Playground">
+<div class="Notebook">
 
 
   <div id="plaground_notebook">
     
-    <h2>OpenMLDB Playground</h2>
+    <h2>OpenMLDB Notebook</h2>
     
     <div id="control_block">
       <form name="control_block_form">
@@ -98,7 +98,7 @@
 
 <script>
 export default {
-  name: 'Playground',
+  name: 'Notebook',
   data: function() {
     return {
       /**
