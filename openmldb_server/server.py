@@ -45,10 +45,15 @@ def get_tables():
     result = {"tables": tableNameMap}
     return jsonify(result)
 
-@app.route('/api/executesql', methods=['GET'])
+@app.route('/api/executesql', methods=['POST'])
 @cross_origin()
 def execute_sql():
-    sql = request.args["sql"]
+    if request.method != 'POST':
+        response = {"success": False, "error": "Unsupport method: {}".format(request.method)}
+        return jsonify(response)
+
+    # Get SQL from POST json instead of GET to avoid url encoding
+    sql = request.json["sql"]
 
     try:
         result = cursor.execute(sql)
