@@ -9,18 +9,19 @@
     text-color="#fff"
     active-text-color="#ffd04b">
     <el-menu-item index="1">Console</el-menu-item>
-    <el-submenu index="2">
+    <el-menu-item index="2">Playground</el-menu-item>
+    <el-submenu index="3">
       <template slot="title">Labs</template>
-      <el-menu-item index="2-1">Lab1: Basic SQL</el-menu-item>
-      <el-menu-item index="2-2">Lab2: Online/Offline Mode</el-menu-item>
-      <el-menu-item index="2-3">Lab3: End-to-end Demo</el-menu-item>
+      <el-menu-item index="3-1">Lab1: Basic SQL</el-menu-item>
+      <el-menu-item index="3-2">Lab2: Online/Offline Mode</el-menu-item>
+      <el-menu-item index="3-3">Lab3: End-to-end Demo</el-menu-item>
     </el-submenu>
-    <el-menu-item index="3">Playground</el-menu-item>
     <el-menu-item index="4">SQL Debugger</el-menu-item>
-    <el-submenu index="5">
+    <el-menu-item index="5">Task Manager</el-menu-item>
+    <el-submenu index="6">
       <template slot="title">Github</template>
-      <el-menu-item index="5-1"><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
-      <el-menu-item index="5-2"><el-link type="primary" href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">OpenMLDB Lab</el-link></el-menu-item>
+      <el-menu-item index="6-1"><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
+      <el-menu-item index="6-2"><el-link type="primary" href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">OpenMLDB Lab</el-link></el-menu-item>
     </el-submenu>    
     
   </el-menu>

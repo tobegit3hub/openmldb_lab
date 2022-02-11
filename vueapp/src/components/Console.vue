@@ -77,8 +77,14 @@
   <div class="execute_sql">
     <h2> Execute SQL</h2>
     
+    
     <div id="execute_sql_input">
-      <el-input placeholder="SELECT * FROM t1" v-model="executeSqlText">
+
+      <el-input placeholder="SELECT * FROM t1" v-model="executeSqlText" @keyup.enter.native="executeSql">
+      <el-select id="execute_sql_select_mode" v-model="select" slot="prepend" placeholder="Mode">
+        <el-option label="Online Mode" value="1"></el-option>
+        <el-option label="Offline Mode" value="2"></el-option>
+      </el-select>
         <el-button slot="append" icon="el-icon-search" @click="executeSql"></el-button>
       </el-input>
     </div>
@@ -295,6 +301,11 @@ a {
     background-color: #f9fafc;
   }
 
+#execute_sql_select_mode {
+  /* TODO: Not work to set select width */
+  width: 130px;
+}
+  
 #openmldb_data_info {
   margin-top: 10px;
   margin-left: 30px;
