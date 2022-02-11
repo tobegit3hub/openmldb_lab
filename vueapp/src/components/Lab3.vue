@@ -1,9 +1,9 @@
 <template>
 
-<div class="lab2">
+<div class="lab3">
 
-  <h2>Lab 2</h2>
-  <p>Oneline/Offline mode</p>
+  <h2>Lab 3</h2>
+  <p>End-to-end demo</p>
 
   <div class="step">
     <p>Step1: Create test database</p>
@@ -65,7 +65,7 @@
 
 <script>
 export default {
-  name: 'Lab2',
+  name: 'Lab3',
   data: function() {
     return {
       createDbSql: "CREATE DATABASE db1",

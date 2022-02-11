@@ -16,7 +16,8 @@
       <el-menu-item index="3-2">Lab2: Online/Offline Mode</el-menu-item>
       <el-menu-item index="3-3">Lab3: End-to-end Demo</el-menu-item>
     </el-submenu>
-    <el-menu-item index="4">SQL Debugger</el-menu-item>
+    <!-- TODO: Support sql debugger with sql compiler api -->
+    <!-- <el-menu-item index="4">SQL Debugger</el-menu-item> -->
     <el-menu-item index="5">Task Manager</el-menu-item>
     <el-submenu index="6">
       <template slot="title">Github</template>
@@ -27,23 +28,29 @@
   </el-menu>
   
 	<Console v-if="activeIndex=='1' || activeIndex==null"/>
-  <Lab1 v-if="activeIndex=='2-1'" />
-  <Lab2 v-if="activeIndex=='2-2'" />
+  <Playground v-if="activeIndex=='2'" />
+  <Lab1 v-if="activeIndex=='3-1'" />
+  <Lab2 v-if="activeIndex=='3-2'" />
+  <Lab3 v-if="activeIndex=='3-3'" />
   
   </div>
 </template>
 
 <script>
 import Console from './components/Console.vue'
+import Playground from './components/Playground.vue'
 import Lab1 from './components/Lab1.vue'
 import Lab2 from './components/Lab2.vue'
+import Lab3 from './components/Lab3.vue'
 
 export default {
   name: 'App',
   components: {
     Console,
+    Playground,
     Lab1,
     Lab2,
+    Lab3,
   },
   data() {
     return {
@@ -52,8 +59,8 @@ export default {
   },
   methods: {
     handleSelect(key, keyPath) {
-      console.log(key, keyPath)
       this.activeIndex = key
+      keyPath
     }
   }
 }

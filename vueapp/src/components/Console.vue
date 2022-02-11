@@ -3,6 +3,9 @@
 <div class="console">
   
   <div id="openmldb_data_info">
+    <br/>
+    <h2>OpenMLDB Console</h2>
+    
     <el-row :gutter="24">
       <el-col :span="5">
         <div class="grid-content db_list">
@@ -77,7 +80,6 @@
   <div class="execute_sql">
     <h2> Execute SQL</h2>
     
-    
     <div id="execute_sql_input">
 
       <el-input placeholder="SELECT * FROM t1" v-model="executeSqlText" @keyup.enter.native="executeSql">
@@ -93,6 +95,7 @@
       <el-table
         :data="executeSqlDataList"
         stripe
+        border
         style="width: 100%">
       
         <template v-for='(schema) in executeSqlSchemaList'>
@@ -174,7 +177,7 @@ export default {
     
     notifySuccess(sqlText) {      
       this.$message({
-        message: "Success to execute " + sqlText,
+        message: "Success to execute: " + sqlText,
         type: "success"
       });
     },  
