@@ -36,7 +36,16 @@
           </el-input>
           
           <el-button type="primary" icon="el-icon-search"></el-button>      
-          <el-button type="danger" icon="el-icon-delete" @click="deleteCurrentBlock(block.id)"></el-button>
+          
+          <el-popconfirm
+            title="Confirm to delete?"
+            @confirm="deleteCurrentBlock(block.id)"
+            >
+            <!-- <el-button slot="reference">删除</el-button> -->
+            <el-button slot="reference" type="danger" icon="el-icon-delete"></el-button>
+          </el-popconfirm>
+          
+          
         </form>
       </div>
         
