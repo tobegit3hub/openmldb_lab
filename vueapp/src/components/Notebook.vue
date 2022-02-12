@@ -29,8 +29,7 @@
     <div class="notebook_blocks">
       
       <div v-for="block in blocks" :key="block.id" class="notebook_block">
-        
-        <div>
+            
 
           <el-row :gutter="24">
             <el-col :span="23">
@@ -46,7 +45,6 @@
                 <el-button v-else slot="reference" type="danger" icon="el-icon-error"></el-button>
               </div>
             </el-col>
-            
           </el-row>
           
           <div>
@@ -62,7 +60,7 @@
             </el-popconfirm>
           </div>
 
-        </div>
+
         
         <div id="execute_sql_result">
           
@@ -235,7 +233,14 @@ a {
   
   .notebook_block {
     margin-top: 30px;
-    padding-top: 45px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 40px;
+    border: solid;
+    border-width:thin;
+    box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+    border-color: beige;
   }
   
   #addBlockButton {
