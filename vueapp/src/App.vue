@@ -19,15 +19,22 @@
     <!-- TODO: Support sql debugger with sql compiler api -->
     <!-- <el-menu-item index="4">SQL Debugger</el-menu-item> -->
     <el-menu-item index="5">Task Manager</el-menu-item>
-    <el-submenu index="6">
+
+
+    <el-submenu index="7" id="github_submenu">
       <template slot="title">Github</template>
-      <el-menu-item index="6-1"><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
-      <el-menu-item index="6-2"><el-link type="primary" href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">OpenMLDB Lab</el-link></el-menu-item>
-    </el-submenu>    
+      <el-menu-item index="7-1"><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
+      <el-menu-item index="7-2"><el-link type="primary" href="https://github.com/tobegit3hub/openmldb_lab" target="_blank">OpenMLDB Lab</el-link></el-menu-item>
+    </el-submenu>
+    
+    <el-submenu index="6" id="settings_submenu">
+      <template slot="title">Settings</template>
+      <el-menu-item index="6-1"><el-button type="text" @click="changeOpenmldbServer">OpenMLDB Server</el-button></el-menu-item>
+    </el-submenu>
     
   </el-menu>
   
-	<Console v-if="activeIndex=='1' || activeIndex==null"/>
+	<Console v-if="activeIndex=='1' || activeIndex==null || activeIndex=='6-1'" />
   <NotebookPage v-if="activeIndex=='2'" />
   <Lab1 v-if="activeIndex=='3-1'" />
   <Lab2 v-if="activeIndex=='3-2'" />
@@ -64,7 +71,46 @@ export default {
     handleSelect(key, keyPath) {
       this.activeIndex = key
       keyPath
-    }
+    },
+    
+    changeOpenmldbServer() {
+      this.$prompt('Please update OpenMLDB endpoint(eg. "127.0.0.1:2181/openmldb")', 'Notice', {
+        confirmButtonText: 'Update',
+        cancelButtonText: 'Cancel',
+      }).then(({ value }) => {
+
+        const requestOptions = {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({openmldb_server: value})
+          };
+        
+        fetch("http://127.0.0.1:5000/api/server", requestOptions)
+          .then(response => response.json())
+          .then(json => {
+            if (json.success == false) {
+              this.$message.error(json.error)
+            } else {
+              // Success to update OpenMLDB server
+              this.$message({
+                type: 'success',
+                message: 'Update OpenMLDB server: ' + value
+              });
+              
+              // TODO: Does not work to update Console page with new OpenMLDB server
+              // this.$forceUpdate()
+              location.reload()
+            }
+          })
+        
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: 'Cancel update server'
+        });       
+      });
+    },
+          
   }
 }
   
@@ -77,5 +123,13 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+#settings_submenu {
+  float: right;
+}
+
+#github_submenu{
+  float: right;
 }
 </style>

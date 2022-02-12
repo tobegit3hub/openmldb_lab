@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import logging
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 import openmldb.dbapi
@@ -12,8 +13,15 @@ cors = CORS(app, resources=r'/*')
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-db = openmldb.dbapi.connect("db1", "127.0.0.1:6181", "/onebox")
-cursor = db.cursor()
+global db
+global cursor
+
+try:
+    db = openmldb.dbapi.connect("db1", "127.0.0.1:6181", "/onebox")
+    cursor = db.cursor()
+except Exception as e:
+    logging.warn("Fail to connect OpenMLDB server, exception: " + str(e))
+
 
 @app.route('/')
 @cross_origin()
@@ -135,6 +143,31 @@ def get_tasks():
     except Exception as e:
         result = {"success": False, "error": str(e)}
     return jsonify(result)
+
+@app.route('/api/server', methods=['POST'])
+@cross_origin()
+def update_openmldb_server():
+    if request.method != 'POST':
+        response = {"success": False, "error": "Unsupport method: {}".format(request.method)}
+        return jsonify(response)
+
+    # Get param from POST json instead of GET to avoid url encoding
+    openmldb_server = request.json["openmldb_server"]
+
+    try:
+        default_db = "default_db"
+        zk = openmldb_server.split("/")[0]
+        zkPath = "/" + "/".join(openmldb_server.split("/")[1:])
+
+        global db
+        global cursor
+        db = openmldb.dbapi.connect(default_db, zk, zkPath)
+        cursor = db.cursor()
+
+        response = {"success": True}
+    except Exception as e:
+        response = {"success": False, "error": str(e)}
+    return jsonify(response)
 
 def main():
   app.run(host="0.0.0.0", port=5000)
