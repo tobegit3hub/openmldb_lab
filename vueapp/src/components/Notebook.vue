@@ -26,10 +26,17 @@
       </form>
     </div>
     
+    <div id="step_bar">
+      
+      <el-steps :active="successBlockIndex" align-center finish-status="success">
+          <el-step v-for="(block, index) in blocks" :key="block.id" :title="'Step ' + (index + 1)"></el-step>
+      </el-steps>
+      
+    </div>
+    
     <div class="notebook_blocks">
       
       <div v-for="block in blocks" :key="block.id" class="notebook_block">
-            
 
           <el-row :gutter="24">
             <el-col :span="23">
@@ -59,9 +66,7 @@
               <el-button slot="reference" type="danger" icon="el-icon-delete" style="margin-left: 10px;">Delete</el-button>
             </el-popconfirm>
           </div>
-
-
-        
+          
         <div id="execute_sql_result">
           
             <div v-if="block.success != null && block.success == true && block.is_query == true" style="margin-top: 20px;">
@@ -112,6 +117,8 @@ export default {
        */
       blocks: [{id: 0, sql: 'SELECT 100, "foo"', success: null, is_query: null, resultSchema: null, resultRows: null}],
       newBlockIndex: 1,
+      // Record the largest index of successful blocks
+      successBlockIndex: 0,
     }
   },
   methods: {
@@ -156,7 +163,9 @@ export default {
                   });
         };
         
-        reader.onerror = (err) => console.log(err);
+        reader.onerror = (err) => {
+          this.$message.error(err);
+        }
         reader.readAsText(this.file);
       } else {
         this.$message.error("Only support json file");
@@ -189,8 +198,22 @@ export default {
             this.blocks[index]["success"] = true
             this.blocks[index]["resultSchema"] = json.schema
             this.blocks[index]["resultRows"] = json.rows
+            
+            this.updateStepIndex()
           }
         })
+    },
+    
+    updateStepIndex() {
+      var index = 0;
+      for (const block of this.blocks) {
+        if (block["success"] != null && block["success"] == true) {
+          index++
+        } else {
+          break
+        }
+      }
+      this.successBlockIndex = index;
     },
     
   }
@@ -247,4 +270,7 @@ a {
     margin-right: 10px;
   }
   
+  #step_bar {
+    margin-top: 30px;
+  }
 </style>
