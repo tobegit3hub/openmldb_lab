@@ -103,6 +103,9 @@
 <script>
 export default {
   name: 'Notebook',
+  props: {
+    builtinBlocks: null,
+  },
   data: function() {
     return {
       /**
@@ -116,10 +119,15 @@ export default {
        *    resultRows: []
        * }
        */
-      blocks: [{id: 0, sql: 'SELECT 100, "foo"', success: null, is_query: null, resultSchema: null, resultRows: null}],
+      blocks: [],
       newBlockIndex: 1,
       // Record the largest index of successful blocks
       successBlockIndex: 0,
+    }
+  },
+  created() {
+    if (this.builtinBlocks != null) {
+      this.blocks = this.builtinBlocks
     }
   },
   methods: {
