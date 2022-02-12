@@ -104,7 +104,7 @@
 export default {
   name: 'Notebook',
   props: {
-    builtinBlocks: null,
+    builtinBlocks: Array
   },
   data: function() {
     return {
@@ -125,7 +125,7 @@ export default {
       successBlockIndex: 0,
     }
   },
-  created() {
+  mounted() {
     if (this.builtinBlocks != null) {
       this.blocks = this.builtinBlocks
     }

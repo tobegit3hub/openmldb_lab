@@ -21,7 +21,7 @@ export default {
   },
   data: function() {
     return {
-      builtinBlocks: [{id: 0, sql: 'SELECT 100ss, "foo"', success: null, is_query: null, resultSchema: null, resultRows: null}],
+      builtinBlocks: [{id: 0, sql: 'SELECT 100, "foo"', success: null, is_query: null, resultSchema: null, resultRows: null}],
     }
   },
   methods: {
