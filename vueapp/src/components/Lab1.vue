@@ -15,7 +15,7 @@ export default {
   data() {
     return {
       title: "Lab1: Basic SQL",
-      subtitle: "Introduction: use basic SQL operations.",
+      subtitle: "Introduction: Use basic SQL operations.",
       labFile: "lab1.json"
     }
   }

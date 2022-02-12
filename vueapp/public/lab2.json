@@ -1,0 +1,1 @@
+[{"id":0,"sql":"SELECT 100","success":null,"is_query":null,"resultSchema":null,"resultRows":null},{"id":1,"sql":"SET @@SESSION.execute_mode = \"offline\"","success":null,"is_query":null,"resultSchema":null,"resultRows":null},{"id":2,"sql":"SELECT 100","success":null,"is_query":null,"resultSchema":null,"resultRows":null}]
