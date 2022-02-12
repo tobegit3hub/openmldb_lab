@@ -254,40 +254,45 @@ a {
   color: #42b983;
 }
 
-  .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+.el-row {
+  margin-bottom: 20px;
+  &:last-child {
+    margin-bottom: 0;
   }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
+}
+.grid-content {
+  border-radius: 4px;
+  min-height: 36px;
+}
+
+#plaground_notebook {
+  margin-top: 30px;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.notebook_block {
+  margin-top: 50px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 20px;
+  padding-right: 50px;
+  border: solid;
+  border-width:thin;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
+  border-color: beige;
+}
+
+#addBlockButton {
+  margin-right: 10px;
+}
+
+#step_bar {
+  margin-top: 30px;
+}
   
-  #plaground_notebook {
-    margin-top: 30px;
-    margin-left: 100px;
-    margin-right: 100px;
-  }
-  
-  .notebook_block {
-    margin-top: 30px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    padding-left: 20px;
-    padding-right: 50px;
-    border: solid;
-    border-width:thin;
-    box-shadow: 5px 5px 5px rgba(0,0,0,0.1);
-    border-color: beige;
-  }
-  
-  #addBlockButton {
-    margin-right: 10px;
-  }
-  
-  #step_bar {
-    margin-top: 30px;
-  }
+.Notebook {
+  padding-left: 30px;
+  padding-right: 30px;
+}
 </style>
