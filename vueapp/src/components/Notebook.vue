@@ -1,11 +1,6 @@
 <template>
 
 <div class="Notebook">
-
-
-  <div id="plaground_notebook">
-    
-    <h2>OpenMLDB Notebook</h2>
     
     <div id="control_block">
       <form name="control_block_form">
@@ -101,7 +96,6 @@
         
     </div>
     
-  </div>
   </div>
 
 </template>
