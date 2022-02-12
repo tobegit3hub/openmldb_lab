@@ -3,7 +3,7 @@
 set -xe
 
 # Install Python libraries
-pip install -r ./openmldb_server/requirements.txt
+pip install -r ./requirements.txt
 
 # Install frontend
 cd ./vueapp
