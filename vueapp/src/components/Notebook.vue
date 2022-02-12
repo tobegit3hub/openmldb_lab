@@ -236,7 +236,7 @@ a {
     padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
-    padding-right: 40px;
+    padding-right: 50px;
     border: solid;
     border-width:thin;
     box-shadow: 5px 5px 5px rgba(0,0,0,0.1);

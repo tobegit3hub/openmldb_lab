@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import logging
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 import openmldb.dbapi
@@ -102,6 +101,32 @@ def get_table_data():
                 col_value = row[i]
                 row_data[col_name] = col_value
             # TODO: Get multiple rows instead of one row
+            data_list = [row_data]
+        else:
+            data_list = []
+
+        result = {"success": True, "rows": data_list, "schema": schema}
+    except Exception as e:
+        result = {"success": False, "error": str(e)}
+    return jsonify(result)
+
+@app.route('/api/tasks', methods=['GET'])
+@cross_origin()
+def get_tasks():
+    sql = "SELECT * FROM __INTERNAL_DB.JOB_INFO"
+    try:
+        result = cursor.execute(sql)
+        schema = result.get_resultset_schema()
+        row = result.fetchone()
+
+        col_num = len(schema)
+
+        if row is not None:
+            row_data = {}
+            for i in range(col_num):
+                col_name = schema[i]["name"]
+                col_value = row[i]
+                row_data[col_name] = col_value
             data_list = [row_data]
         else:
             data_list = []

@@ -32,6 +32,7 @@
   <Lab1 v-if="activeIndex=='3-1'" />
   <Lab2 v-if="activeIndex=='3-2'" />
   <Lab3 v-if="activeIndex=='3-3'" />
+  <TaskManager v-if="activeIndex=='5'" />
   
   </div>
 </template>
@@ -42,6 +43,7 @@ import Notebook from './components/Notebook.vue'
 import Lab1 from './components/Lab1.vue'
 import Lab2 from './components/Lab2.vue'
 import Lab3 from './components/Lab3.vue'
+import TaskManager from './components/TaskManager.vue'
 
 export default {
   name: 'App',
@@ -51,6 +53,7 @@ export default {
     Lab1,
     Lab2,
     Lab3,
+    TaskManager,
   },
   data() {
     return {
