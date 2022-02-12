@@ -61,10 +61,17 @@
               @click="executeSql(block.id, block.sql)">Run</el-button>      
             
             <el-popconfirm
+              title="Confirm to clear output?"
+              @confirm="clearCurrentBlock(block.id)">
+              <el-button slot="reference" type="warning" icon="el-icon-refresh-left" style="margin-left: 10px;">Clear</el-button>
+            </el-popconfirm>
+            
+            <el-popconfirm
               title="Confirm to delete?"
               @confirm="deleteCurrentBlock(block.id)">
               <el-button slot="reference" type="danger" icon="el-icon-delete" style="margin-left: 10px;">Delete</el-button>
             </el-popconfirm>
+            
           </div>
           
         <div id="execute_sql_result">
@@ -130,6 +137,14 @@ export default {
     deleteCurrentBlock(blockId) {      
       var index = this.blocks.findIndex(block => block.id == blockId)
       this.$delete(this.blocks, index)
+    },
+    
+    clearCurrentBlock(blockId) {
+      var index = this.blocks.findIndex(block => block.id == blockId)
+      this.blocks[index]["success"] = null
+      this.blocks[index]["is_query"] = null
+      this.blocks[index]["resultSchema"] = null
+      this.blocks[index]["resultRows"] = null
     },
     
     exportNotebookJson() {
