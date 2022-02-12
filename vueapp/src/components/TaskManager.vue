@@ -80,6 +80,9 @@ export default {
     },
     
     handleSelectTask(row, column, event) {
+      // TODO: Just use to avoid warning
+      column
+      event
       var taskId = row.id
       
       this.showLogDrawer = true
