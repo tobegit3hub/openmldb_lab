@@ -27,7 +27,7 @@ Start the server with single script.
 ./start.sh
 ```
 
-Then open browser in <http://127.0.0.1:5000>.
+Then open browser in <http://127.0.0.1:7788>.
 
 ![](./images/lab1.png)
 

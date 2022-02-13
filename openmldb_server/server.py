@@ -170,7 +170,7 @@ def update_openmldb_server():
     return jsonify(response)
 
 def main():
-  app.run(host="0.0.0.0", port=5000)
+  app.run(host="0.0.0.0", port=7788)
 
 if __name__ == "__main__":
   main()

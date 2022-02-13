@@ -62,7 +62,7 @@ export default {
   methods: {
   
     refreshTaskList() {
-      fetch("http://127.0.0.1:5000/api/tasks")
+      fetch("http://127.0.0.1:7788/api/tasks")
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {

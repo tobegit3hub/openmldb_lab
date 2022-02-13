@@ -85,7 +85,7 @@ export default {
             body: JSON.stringify({openmldb_server: value})
           };
         
-        fetch("http://127.0.0.1:5000/api/server", requestOptions)
+        fetch("http://127.0.0.1:7788/api/server", requestOptions)
           .then(response => response.json())
           .then(json => {
             if (json.success == false) {

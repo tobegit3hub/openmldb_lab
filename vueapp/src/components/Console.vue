@@ -183,7 +183,7 @@ export default {
     },  
     
     refreshDbList() {
-      fetch("http://127.0.0.1:5000/api/dbs")
+      fetch("http://127.0.0.1:7788/api/dbs")
                 .then(response => response.json())
                 .then(json => {
                   this.databaseListData = json.databases
@@ -200,7 +200,7 @@ export default {
     },
     
     refreshTableList(dbName) {
-      fetch("http://127.0.0.1:5000/api/tables?db=" + dbName)
+      fetch("http://127.0.0.1:7788/api/tables?db=" + dbName)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
@@ -221,7 +221,7 @@ export default {
     },
     
     refreshTableData(tableName) {    
-      fetch("http://127.0.0.1:5000/api/tabledata?table=" + tableName)
+      fetch("http://127.0.0.1:7788/api/tabledata?table=" + tableName)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
@@ -241,7 +241,7 @@ export default {
           body: JSON.stringify({sql: this.executeSqlText})
         };
       
-      fetch("http://127.0.0.1:5000/api/executesql", requestOptions)
+      fetch("http://127.0.0.1:7788/api/executesql", requestOptions)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {

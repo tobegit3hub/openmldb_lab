@@ -4,6 +4,5 @@ set -xe
 
 cd ./openmldb_server/
 
-FLASK_ENV=production FLASK_APP=server flask run
+FLASK_ENV=production FLASK_APP=server flask run -p 7788
 
-#python3 -m webbrowser http://127.0.0.1:5000
