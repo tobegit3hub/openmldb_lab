@@ -22,7 +22,6 @@ try:
 except Exception as e:
     logging.warn("Fail to connect OpenMLDB server, exception: " + str(e))
 
-
 @app.route('/')
 @cross_origin()
 def index():
