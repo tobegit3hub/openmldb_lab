@@ -1,9 +1,14 @@
 #!/usr/bin/env python3
 
+import os
+import sys
 import logging
+import argparse
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 import openmldb.dbapi
+
+logger = logging.getLogger("openmldb_server")
 
 app = Flask(__name__,
             template_folder="./dist/",
@@ -13,11 +18,46 @@ cors = CORS(app, resources=r'/*')
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+
+
+# Define parameters
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--host",
+    default=os.environ.get("HOST", "0.0.0.0"),
+    help="The host of the server(eg. 0.0.0.0)")
+parser.add_argument(
+    "--port",
+    default=int(os.environ.get("PORT", "7788")),
+    help="The port of the server(eg. 7788)",
+    type=int)
+parser.add_argument(
+    "--zk",
+    default=os.environ.get("ZK", "0.0.0.0:2181"),
+    help="The ZooKeeper cluster(eg. 0.0.0.0:2181)")
+parser.add_argument(
+    "--zk_path",
+    default=os.environ.get("ZK_PATH", "/openmldb"),
+    help="The ZK path of OpenMLDB cluster(eg. /openmldb)")
+parser.add_argument(
+    "--default_db",
+    default=os.environ.get("DB", "default_db"),
+    help="The default database(eg. default_db)")
+parser.add_argument(
+    "--debug",
+    default=os.environ.get("DEBUG", ""),
+    help="Enable debug for flask or not(eg. true)",
+    type=bool)
+
+args = parser.parse_args(sys.argv[1:])
+for arg in vars(args):
+    logger.info("{}: {}".format(arg, getattr(args, arg)))
+
 global db
 global cursor
 
 try:
-    db = openmldb.dbapi.connect("db1", "127.0.0.1:6181", "/onebox")
+    db = openmldb.dbapi.connect(args.default_db, args.zk, args.zk_path)
     cursor = db.cursor()
 except Exception as e:
     logging.warn("Fail to connect OpenMLDB server, exception: " + str(e))
@@ -169,7 +209,11 @@ def update_openmldb_server():
     return jsonify(response)
 
 def main():
-  app.run(host="0.0.0.0", port=7788)
+  # TODO: debug config does not work
+  app.run(host=args.host,
+          port=args.port,
+          threaded=True,
+          debug=args.debug)
 
 if __name__ == "__main__":
   main()
