@@ -4,6 +4,7 @@ import os
 import sys
 import logging
 import argparse
+import webbrowser
 from flask import Flask, render_template, jsonify, request
 from flask_cors import CORS, cross_origin
 import openmldb.dbapi
@@ -221,6 +222,9 @@ def get_task_log():
     return jsonify(result)
 
 def main():
+  # Start web browser if possible
+  webbrowser.open("http://{}:{}".format(args.host, args.port))
+
   # TODO: debug config does not work
   app.run(host=args.host,
           port=args.port,

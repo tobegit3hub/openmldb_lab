@@ -12,6 +12,9 @@ setup(
     url="https://github.com/tobegit3hub/openmldb_lab",
     description="OpenMLDB Lab",
     packages=find_packages(),
+    classifiers=[
+        'Programming Language :: Python :: 3',
+    ],
     # TODO: Change to requirements.txt
     install_requires=[
         'flask', 'flask-cors'
