@@ -208,6 +208,18 @@ def update_openmldb_server():
         response = {"success": False, "error": str(e)}
     return jsonify(response)
 
+@app.route('/api/tasklog', methods=['GET'])
+@cross_origin()
+def get_task_log():
+    jobId = request.args["id"]
+    try:
+        # TODO: Check if jobId is integer
+        log = cursor.connection._sdk.getJobLog(int(jobId))
+        result = {"success": True, "log": log}
+    except Exception as e:
+        result = {"success": False, "error": str(e)}
+    return jsonify(result)
+
 def main():
   # TODO: debug config does not work
   app.run(host=args.host,

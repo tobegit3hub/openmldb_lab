@@ -33,8 +33,11 @@
       <el-drawer
         :title="logDrawerTitle"
         :visible.sync="showLogDrawer"
-        :direction="btt">
-        <div><p>{{ logDrawerContent }}</p></div>
+        :custom-class="'drawer_custom'"
+        :size="'70%'"
+        style="text-align: left;"
+        :direction="'btt'">
+        <pre id="logContent">{{ logDrawerContent }}</pre>
       </el-drawer>
       
     </div>
@@ -87,8 +90,16 @@ export default {
       
       this.showLogDrawer = true
       this.logDrawerTitle = "Log of Task " + taskId
-      // TODO: support get log from Python SDK
-      this.logDrawerContent = "This function will be add later"
+      
+      fetch("http://127.0.0.1:7788/api/tasklog?id=" + taskId)
+        .then(response => response.json())
+        .then(json => {
+          if (json.success == false) {
+            this.notifyError(json.error)
+          } else {
+            this.logDrawerContent = json.log
+          }
+        })
     },
     
   }
@@ -117,4 +128,9 @@ a {
   margin-left: 50px;
   margin-right: 50px;
 }
+
+#logContent {
+  padding: 10px;
+}
+
 </style>

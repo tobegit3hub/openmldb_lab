@@ -20,7 +20,6 @@
     <!-- <el-menu-item index="4">SQL Debugger</el-menu-item> -->
     <el-menu-item index="5">Task Manager</el-menu-item>
 
-
     <el-submenu index="7" id="github_submenu">
       <template slot="title">Github</template>
       <el-menu-item index="7-1"><el-link type="primary" href="https://github.com/4paradigm/openmldb" target="_blank">OpenMLDB</el-link></el-menu-item>
