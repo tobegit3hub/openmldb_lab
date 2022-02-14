@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="openmldb_lab",
-    version="0.1.0",
+    version="0.1.1",
     author="tobe",
     author_email="tobeg3oogle@gmail.com",
     url="https://github.com/tobegit3hub/openmldb_lab",
@@ -20,7 +20,6 @@ setup(
     zip_safe=False,
     entry_points={
         "console_scripts": [
-            # TODO: Do not use wsgi by default
             "openmldb_lab=openmldb_server.server:main"
         ],
     })
