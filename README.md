@@ -10,6 +10,11 @@ The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provi
 * SQL debugger of OpenMLDB SQL
 * Task management service for tasks
 
+![](./images/console_page.png)
+![](./images/notebook_page.png)
+![](./images/labs_page.png)
+![](./images/taskmanager_page.png)
+
 ## Install
 
 Use the official Python package [popenmldb_lab](https://pypi.org/project/openmldb-lab/).
@@ -55,8 +60,6 @@ docker run --net host -e ZK=0.0.0.0:2181 -e ZK_PATH=/openmldb tobegit3hub/openml
 ```
 
 Then open browser in <http://127.0.0.1:7788>.
-
-![](./images/lab1.png)
 
 ## Development
 
