@@ -197,7 +197,6 @@ export default {
         this.selectedDbItem = val
         this.refreshTableList(dbName)
         
-        // tobe
         this.updateDefaultDb(dbName)
       }
     },

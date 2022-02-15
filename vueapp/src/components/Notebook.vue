@@ -17,7 +17,13 @@
         <el-button icon="el-icon-upload2" onclick="document.control_block_form.upload_notebook_json.click()">Import Notebook</el-button>
         
         <el-button @click="exportNotebookJson" icon="el-icon-download">Export Notebook</el-button>
-        
+
+        <el-popconfirm
+          title="Confirm to run all blocks(skip succeed blocks)?"
+          @confirm="runAllBlocks">
+          <el-button slot="reference" type="warning" icon="el-icon-magic-stick" style="margin-left: 10px;">Run All</el-button>
+        </el-popconfirm>
+                
         <el-popconfirm
           title="Confirm to clear all output?"
           @confirm="clearAllBlocks">
@@ -162,6 +168,18 @@ export default {
         block["resultSchema"] = null
         block["resultRows"] = null
       })
+      
+      this.resetStepIndex()
+    },
+    
+    runAllBlocks() {
+      this.blocks.map(block => {
+        
+        if (block.success == null || block.success == false) {
+          // tobe
+          this.executeSql(block.id, block.sql)
+        }
+      })
     },
     
     exportNotebookJson() {
@@ -246,6 +264,10 @@ export default {
         }
       }
       this.successBlockIndex = index;
+    },
+    
+    resetStepIndex() {
+      this.successBlockIndex = 0;
     },
     
   }
