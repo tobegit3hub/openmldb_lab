@@ -233,7 +233,7 @@ export default {
       var is_query = sqlText.toLowerCase().startsWith("select")
       this.blocks[index]["is_query"] = is_query
       
-      fetch("http://127.0.0.1:7788/api/executesql", requestOptions)
+      fetch(`http://${this.GLOBAL.host}/api/executesql`, requestOptions)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {

@@ -71,12 +71,14 @@ cd ./vueapp/
 npm run serve
 ```
 
+Make sure to set the back-end host in <./vueapp/src/components/Global.vue>.
+
 Back-end uses [Flask](https://flask.palletsprojects.com/) in Python and we can start the server.
 
 ```
 cd ./openmldb_server/
 
-FLASK_ENV=development FLASK_APP=server flask run --port 7788
+./server.py --debug=true
 ```
 
 Access OpenMLDB with [OpenMLDB Python SDK](https://pypi.org/project/openmldb/).

@@ -128,6 +128,8 @@ export default {
   },
   data: function() {
     return {
+      //host: window.location.host,
+      host: "127.0.0.1:8899",
       databaseListData: [],
       selectedDb: null,
       selectedDbItem: null,
@@ -183,7 +185,7 @@ export default {
     },  
     
     refreshDbList() {
-      fetch("http://127.0.0.1:7788/api/dbs")
+      fetch(`http://${this.GLOBAL.host}/api/dbs`)
                 .then(response => response.json())
                 .then(json => {
                   this.databaseListData = json.databases
@@ -208,7 +210,7 @@ export default {
           body: JSON.stringify({db: dbName})
         };
       
-      fetch("http://127.0.0.1:7788/api/defaultdb", requestOptions)
+      fetch(`http://${this.GLOBAL.host}/api/defaultdb`, requestOptions)
         .then(response => response.json())
         .then(json => {
           return json.success
@@ -216,7 +218,7 @@ export default {
     },
     
     refreshTableList(dbName) {
-      fetch("http://127.0.0.1:7788/api/tables?db=" + dbName)
+      fetch(`http://${this.GLOBAL.host}/api/tables?db=${dbName}`)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
@@ -237,7 +239,7 @@ export default {
     },
     
     refreshTableData(tableName) {    
-      fetch("http://127.0.0.1:7788/api/tabledata?table=" + tableName)
+      fetch(`http://${this.GLOBAL.host}/api/tabledata?table=${tableName}`)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
@@ -257,7 +259,7 @@ export default {
           body: JSON.stringify({sql: this.executeSqlText})
         };
       
-      fetch("http://127.0.0.1:7788/api/executesql", requestOptions)
+      fetch(`http://${this.GLOBAL.host}/api/executesql`, requestOptions)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {

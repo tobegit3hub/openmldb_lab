@@ -65,7 +65,7 @@ export default {
   methods: {
   
     refreshTaskList() {
-      fetch("http://127.0.0.1:7788/api/tasks")
+      fetch(`http://${this.GLOBAL.host}/api/tasks`)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
@@ -91,7 +91,7 @@ export default {
       this.showLogDrawer = true
       this.logDrawerTitle = "Log of Task " + taskId
       
-      fetch("http://127.0.0.1:7788/api/tasklog?id=" + taskId)
+      fetch(`http://${this.GLOBAL.host}/api/tasklog?id=${taskId}`)
         .then(response => response.json())
         .then(json => {
           if (json.success == false) {
