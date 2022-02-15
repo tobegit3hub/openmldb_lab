@@ -117,21 +117,20 @@ def execute_sql():
 
         if is_query_sql:
             schema = result.get_resultset_schema()
-            row = result.fetchone()
-
             col_num = len(schema)
-            if row is not None:
+            rows = result.fetchall()
+
+            return_rows_list = []
+            for row in rows:
                 row_data = {}
                 for i in range(col_num):
                     col_name = schema[i]["name"]
                     col_value = row[i]
                     row_data[col_name] = col_value
-                data_list = [row_data]
-            else:
-                data_list = []
-            response["rows"] = data_list
-            response["schema"] = schema
+                return_rows_list.append(row_data)
 
+            response["rows"] = return_rows_list
+            response["schema"] = schema
     except Exception as e:
         response = {"success": False, "error": str(e)}
     return jsonify(response)
@@ -143,24 +142,20 @@ def get_table_data():
     sql = "SELECT * FROM {} LIMIT 10".format(table_name)
     try:
         result = cursor.execute(sql)
-        # TODO: Change to fetch many instead of using limit
         schema = result.get_resultset_schema()
-        row = result.fetchone()
-
         col_num = len(schema)
+        rows = result.fetchmany(10)
 
-        if row is not None:
+        return_rows_list = []
+        for row in rows:
             row_data = {}
             for i in range(col_num):
                 col_name = schema[i]["name"]
                 col_value = row[i]
                 row_data[col_name] = col_value
-            # TODO: Get multiple rows instead of one row
-            data_list = [row_data]
-        else:
-            data_list = []
+            return_rows_list.append(row_data)
 
-        result = {"success": True, "rows": data_list, "schema": schema}
+        result = {"success": True, "rows": return_rows_list, "schema": schema}
     except Exception as e:
         result = {"success": False, "error": str(e)}
     return jsonify(result)
@@ -172,21 +167,20 @@ def get_tasks():
     try:
         result = cursor.execute(sql)
         schema = result.get_resultset_schema()
-        row = result.fetchone()
-
         col_num = len(schema)
 
-        if row is not None:
+        rows = result.fetchall()
+
+        return_rows_list = []
+        for row in rows:
             row_data = {}
             for i in range(col_num):
                 col_name = schema[i]["name"]
                 col_value = row[i]
                 row_data[col_name] = col_value
-            data_list = [row_data]
-        else:
-            data_list = []
+            return_rows_list.append(row_data)
 
-        result = {"success": True, "rows": data_list, "schema": schema}
+        result = {"success": True, "rows": return_rows_list, "schema": schema}
     except Exception as e:
         result = {"success": False, "error": str(e)}
     return jsonify(result)
