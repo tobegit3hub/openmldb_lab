@@ -46,7 +46,7 @@ parser.add_argument(
     help="The default database(eg. default_db)")
 parser.add_argument(
     "--debug",
-    default=os.environ.get("DEBUG", ""),
+    default=bool(os.environ.get("DEBUG", "false")),
     help="Enable debug for flask or not(eg. true)",
     type=bool)
 
@@ -56,9 +56,16 @@ for arg in vars(args):
 
 global db
 global cursor
+global current_default_db
+global current_zk
+global current_zk_path
+
+current_default_db = args.default_db
+current_zk = args.zk
+current_zk_path = args.zk_path
 
 try:
-    db = openmldb.dbapi.connect(args.default_db, args.zk, args.zk_path)
+    db = openmldb.dbapi.connect(current_default_db, current_zk, current_zk_path)
     cursor = db.cursor()
 except Exception as e:
     logging.warn("Fail to connect OpenMLDB server, exception: " + str(e))
@@ -96,7 +103,7 @@ def get_tables():
 @cross_origin()
 def execute_sql():
     if request.method != 'POST':
-        response = {"success": False, "error": "Unsupport method: {}".format(request.method)}
+        response = {"success": False, "error": "Unsupported method: {}".format(request.method)}
         return jsonify(response)
 
     # Get SQL from POST json instead of GET to avoid url encoding
@@ -188,20 +195,26 @@ def get_tasks():
 @cross_origin()
 def update_openmldb_server():
     if request.method != 'POST':
-        response = {"success": False, "error": "Unsupport method: {}".format(request.method)}
+        response = {"success": False, "error": "Unsupported method: {}".format(request.method)}
         return jsonify(response)
 
     # Get param from POST json instead of GET to avoid url encoding
     openmldb_server = request.json["openmldb_server"]
 
     try:
-        default_db = "default_db"
         zk = openmldb_server.split("/")[0]
         zkPath = "/" + "/".join(openmldb_server.split("/")[1:])
 
         global db
         global cursor
-        db = openmldb.dbapi.connect(default_db, zk, zkPath)
+        global current_default_db
+        global current_zk
+        global current_zk_path
+
+        # Update zk and zk path
+        current_zk = zk
+        current_zk_path = zkPath
+        db = openmldb.dbapi.connect(current_default_db, current_zk, current_zk_path)
         cursor = db.cursor()
 
         response = {"success": True}
@@ -221,9 +234,36 @@ def get_task_log():
         result = {"success": False, "error": str(e)}
     return jsonify(result)
 
+@app.route('/api/defaultdb', methods=['POST'])
+@cross_origin()
+def update_default_db():
+    if request.method != 'POST':
+        response = {"success": False, "error": "Unsupported method: {}".format(request.method)}
+        return jsonify(response)
+
+    default_db = request.json["db"]
+
+    try:
+        global db
+        global cursor
+        global current_default_db
+        global current_zk
+        global current_zk_path
+
+        # Update default db
+        current_default_db = default_db
+
+        db = openmldb.dbapi.connect(current_default_db, current_zk, current_zk_path)
+        cursor = db.cursor()
+
+        response = {"success": True}
+    except Exception as e:
+        response = {"success": False, "error": str(e)}
+    return jsonify(response)
+
 def main():
   # Start web browser if possible
-  webbrowser.open("http://{}:{}".format(args.host, args.port))
+  # webbrowser.open("http://{}:{}".format(args.host, args.port))
 
   # TODO: debug config does not work
   app.run(host=args.host,
