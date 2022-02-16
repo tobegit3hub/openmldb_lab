@@ -1,3 +1,6 @@
+.git/
+.gitignore
+.dockerignore
 LICENSE
 README.md
 files.txt

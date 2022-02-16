@@ -19,8 +19,6 @@ cors = CORS(app, resources=r'/*')
 
 app.config['CORS_HEADERS'] = 'Content-Type'
 
-
-
 # Define parameters
 parser = argparse.ArgumentParser()
 parser.add_argument(

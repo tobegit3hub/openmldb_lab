@@ -35,7 +35,7 @@ cd ./openmldb_lab/
 
 ## Usage
 
-Run with pre-built binary.
+Run `openmldb_lab` with OpenMLDB cluster.
 
 ```
 openmldb_lab --zk=0.0.0.0:2181 --zk_path=/openmldb
@@ -49,21 +49,32 @@ ZK=0.0.0.0:2181 ZK_PATH=/openmldb openmldb_lab
 
 Then open browser in <http://127.0.0.1:7788>.
 
-## Use Docker
-
-Use the official Docker image [tobegit3hub/openmldb_lab](https://hub.docker.com/r/tobegit3hub/openmldb_lab).
+Run `openmldb_lab -h` for more options.
 
 ```
-docker pull tobegit3hub/openmldb_lab
+$ openmldb_lab -h
+usage: openmldb_lab [-h] [--host HOST] [--port PORT] [--zk ZK] [--zk_path ZK_PATH] [--default_db DEFAULT_DB] [--debug DEBUG]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --host HOST           The host of the server(eg. 0.0.0.0)
+  --port PORT           The port of the server(eg. 7788)
+  --zk ZK               The ZooKeeper cluster(eg. 0.0.0.0:2181)
+  --zk_path ZK_PATH     The ZK path of OpenMLDB cluster(eg. /openmldb)
+  --default_db DEFAULT_DB
+                        The default database(eg. default_db)
+  --debug DEBUG         Enable debug for flask or not(eg. true)
 ```
 
-Run with Docker image.
+## Docker Image
+
+Run with official Docker image [tobegit3hub/openmldb_lab](https://hub.docker.com/r/tobegit3hub/openmldb_lab).
 
 ```
-docker run --net host -e ZK=0.0.0.0:2181 -e ZK_PATH=/openmldb tobegit3hub/openmldb_lab
+docker run -d --net=host -e ZK=0.0.0.0:2181 -e ZK_PATH=/openmldb tobegit3hub/openmldb_lab
 ```
 
-https://docs.docker.com/network/host/
+Notice that `--net=host` does not work in MacOS, refer to <https://docs.docker.com/network/host/>. Please use `pip install openmldb_lab` or build from scratch in MacOS.
 
 ## Development
 
@@ -85,7 +96,7 @@ cd ./openmldb_server/
 ./server.py --debug=true
 ```
 
-Access OpenMLDB with [OpenMLDB Python SDK](https://pypi.org/project/openmldb/).
+OpenMLDB Lab accesses OpenMLDB cluster with [OpenMLDB Python SDK](https://pypi.org/project/openmldb/).
 
 ## License
 

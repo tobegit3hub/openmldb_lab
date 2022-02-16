@@ -14,9 +14,6 @@ WORKDIR /openmldb_lab/
 RUN ./install.sh
 RUN python ./setup.py install
 
-ENV ZK=0.0.0.0:2181
-ENV ZK_PATH=/openmldb
-
 EXPOSE 7788
 
 CMD ["openmldb_lab"]
