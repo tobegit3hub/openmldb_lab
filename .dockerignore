@@ -1,8 +1,14 @@
-
-files.txt
 LICENSE
 README.md
-images
+files.txt
+build_docker_image.sh
+images/
+Dockerfile
+build/
+dist/
+openmldb_lab.egg-info/
+openmldb_server/__pycache__/
+openmldb_server/dist/
 
 # Distribution / packaging
 .Python

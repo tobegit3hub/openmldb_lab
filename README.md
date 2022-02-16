@@ -7,7 +7,7 @@ The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provi
 * Web Console of OpenMLDB databases
 * Playground of OpenMLDB SQL
 * Multiple labs for beginners
-* SQL debugger of OpenMLDB SQL
+* SQL debugger for OpenMLDB SQL
 * Task management service for tasks
 
 ![](./images/console_page.png)
@@ -17,19 +17,13 @@ The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provi
 
 ## Install
 
-Use the official Python package [popenmldb_lab](https://pypi.org/project/openmldb-lab/).
+Install with official Python package [popenmldb_lab](https://pypi.org/project/openmldb-lab/).
 
 ```
 pip install openmldb_lab
 ```
 
-Use the official Docker image [tobegit3hub/openmldb_lab](https://hub.docker.com/r/tobegit3hub/openmldb_lab).
-
-```
-docker pull tobegit3hub/openmldb_lab
-```
-
-Build from scratch with source code.
+Or build from scratch with source code.
 
 ```
 git clone https://github.com/tobegit3hub/openmldb_lab.git
@@ -53,13 +47,23 @@ Or use environment variables.
 ZK=0.0.0.0:2181 ZK_PATH=/openmldb openmldb_lab
 ```
 
+Then open browser in <http://127.0.0.1:7788>.
+
+## Use Docker
+
+Use the official Docker image [tobegit3hub/openmldb_lab](https://hub.docker.com/r/tobegit3hub/openmldb_lab).
+
+```
+docker pull tobegit3hub/openmldb_lab
+```
+
 Run with Docker image.
 
 ```
 docker run --net host -e ZK=0.0.0.0:2181 -e ZK_PATH=/openmldb tobegit3hub/openmldb_lab
 ```
 
-Then open browser in <http://127.0.0.1:7788>.
+https://docs.docker.com/network/host/
 
 ## Development
 

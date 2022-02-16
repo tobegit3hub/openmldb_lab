@@ -4,7 +4,7 @@ set -xe
 
 # Install frontend
 npm install -g @vue/cli
-cd ./vueapp
+cd ./vueapp/
 npm install
 npm run build
 cd ../
