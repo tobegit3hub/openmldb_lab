@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="openmldb_lab",
-    version="0.1.2",
+    version="0.1.3",
     author="tobe",
     author_email="tobeg3oogle@gmail.com",
     url="https://github.com/tobegit3hub/openmldb_lab",
@@ -16,6 +16,7 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     # TODO: Change to requirements.txt
+    # TODO: required openmldb>=0.4.2 in the future
     install_requires=[
         'flask', 'flask-cors', 'openmldb>=0.4.1'
     ],
