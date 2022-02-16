@@ -28,3 +28,9 @@ CREATE TABLE t1 (c1 string, c2 int, c3 bigint, c4 float, c5 double, c6 timestamp
 INSERT INTO t1 VALUES ("aa", 13, 22, 3.2, 13.3, 1636097490000, "2021-05-20");
 INSERT INTO t1 VALUES ("bb", 16, 22, 6.2, 16.3, 1636097790000, "2021-05-20");
 INSERT INTO t1 VALUES ("cc", 17, 22, 7.2, 17.3, 1636097890000, "2021-05-26");
+
+
+set @@SESSION.execute_mode = "offline";
+SELECT 100;
+SELECT "foo";
+

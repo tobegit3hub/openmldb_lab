@@ -17,7 +17,7 @@ setup(
     ],
     # TODO: Change to requirements.txt
     install_requires=[
-        'flask', 'flask-cors'
+        'flask', 'flask-cors', 'openmldb>=0.4.1'
     ],
     include_package_data=True,
     zip_safe=False,
