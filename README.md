@@ -2,14 +2,14 @@
 
 ## Introduction
 
-The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provides battery-included features. Visit <http://openmldb.online/> for live demo.
+The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provides out-of-box features. Visit [openmldb.online](http://openmldb.online/) for live demo.
 
-* Web Console: visually display databases, tables and rows
-* Playground: execute SQL online without configuring
-* Notebook: import and export notebooks for sharing
-* Labs: Entry-level and practical labs for beginners
-* SQL debugger: Analyse and parse OpenMLDB SQL easily
-* Task management: visually display tasks and show logs
+* **Console**: Visually display databases, tables and rows
+* **Playground**: Execute SQL online without configuring
+* **Notebook**: Import and export notebooks for sharing
+* **Labs**: Entry-level and practical labs for beginners
+* **SQL Debugger**: Analyse and parse OpenMLDB SQL easily
+* **Task Management**: Visually display tasks and show logs
 
 ![](./images/console_page.png)
 ![](./images/notebook_page.png)
