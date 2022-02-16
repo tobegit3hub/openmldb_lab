@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provides out-of-box features. Visit [openmldb.online](http://openmldb.online/) for live demo.
+OpenMLDB Lab is enhanced service for [OpenMLDB](https://github.com/4paradigm/openmldb) which provides out-of-box features. Please visit [openmldb.online](http://openmldb.online/) for live demo.
 
 * **Console**: Visually display databases, tables and rows
 * **Playground**: Execute SQL online without configuring
@@ -18,7 +18,7 @@ The web service of [OpenMLDB](https://github.com/4paradigm/openmldb) which provi
 
 ## Install
 
-Install with official Python package [popenmldb_lab](https://pypi.org/project/openmldb-lab/).
+Install with official Python package [openmldb_lab](https://pypi.org/project/openmldb-lab/).
 
 ```
 pip install openmldb_lab
@@ -87,7 +87,7 @@ cd ./vueapp/
 npm run serve
 ```
 
-Make sure to set the back-end host in <./vueapp/src/components/Global.vue>.
+Make sure to set the back-end host in [Global.vue](./vueapp/src/components/Global.vue).
 
 Back-end uses [Flask](https://flask.palletsprojects.com/) in Python and we can start the server.
 
