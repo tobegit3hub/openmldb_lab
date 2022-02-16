@@ -21,7 +21,7 @@
               sortable
               :show-overflow-tooltip="true"
               :prop="schema.name"
-              :label="schema.name + '(' + schema.type + ')'"
+              :label="schema.name + ' (' + schema.type + ')'"
               :key="schema.name">
             </el-table-column>
           </template>
