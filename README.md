@@ -2,7 +2,7 @@
 
 ## Introduction
 
-OpenMLDB Lab is enhanced service for [OpenMLDB](https://github.com/4paradigm/openmldb) which provides out-of-box features. Please visit [openmldb.online](http://openmldb.online/) for live demo.
+OpenMLDB Lab is the enhanced service for [OpenMLDB](https://github.com/4paradigm/openmldb) which provides out-of-box features. Please visit [openmldb.online](http://openmldb.online/) for live demo.
 
 * **Console**: Visually display databases, tables and rows
 * **Playground**: Execute SQL online without configuring
@@ -48,7 +48,7 @@ Or use environment variables.
 ZK=0.0.0.0:2181 ZK_PATH=/openmldb openmldb_lab
 ```
 
-Then open browser in <http://127.0.0.1:7788>.
+Then go to <http://127.0.0.1:7788> in web browser.
 
 Run `openmldb_lab -h` for more options.
 
